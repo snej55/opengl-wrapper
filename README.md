@@ -1,0 +1,1 @@
+This is the start for a simple OpenGL wrapper for 2D graphics. I will likely extend it to 3D in the future.
