@@ -14,16 +14,28 @@ public:
 
     ~App();
 
-    void run();
+    static void clear();
+    void tick();
 
-    void close();
+    bool shouldClose() const;
+
+    void close() const;
 
 private:
     GLFWwindow* _window{nullptr};
     int _width{0};
     int _height{0};
 
+    float _deltaTime{0.0f};
+    float _lastFrame{0.0f};
+
+    bool _closed{false};
+
+    // ----------------------------------------------------------- //
+
     bool init(int width, int height, const char* title);
+
+    static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 };
 
 
