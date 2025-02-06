@@ -1,5 +1,5 @@
 //
-// Created by jenskromdijk3 on 2/6/25.
+// Created by jens kromdijk on 2/6/25.
 //
 
 #ifndef APP_H
@@ -8,18 +8,20 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include "./shader.h"
+
 class App {
 public:
     App(int width, int height, const char* title);
 
     ~App();
 
-    static void clear();
+    void clear() const;
     void tick();
 
-    bool shouldClose() const;
+    [[nodiscard]] bool shouldClose() const;
 
-    void close() const;
+    void close();
 
 private:
     GLFWwindow* _window{nullptr};
@@ -30,6 +32,8 @@ private:
     float _lastFrame{0.0f};
 
     bool _closed{false};
+
+    Shader _defaultShader;
 
     // ----------------------------------------------------------- //
 

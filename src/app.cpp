@@ -6,12 +6,15 @@
 
 #include <iostream>
 
-App::App(const int width, const int height, const char* title) {
+App::App(const int width, const int height, const char* title)
+    // vertex & fragment paths don't matter for default shader
+    : _defaultShader{"default", "default", true}
+{
     // should only be called once
     if (!init(width, height, title)) {
         std::cout << "Failed to initialize!" << std::endl;
     } else {
-        std::cout << "Initialized!" << std::endl;
+        std::cout << "Initialized OpenGL context!" << std::endl;
     }
 }
 
@@ -24,8 +27,8 @@ App::~App() {
 bool App::init(const int width, const int height, const char* title) {
     glfwInit();
 
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     _window = glfwCreateWindow(width, height, title, nullptr, nullptr);
@@ -47,17 +50,23 @@ bool App::init(const int width, const int height, const char* title) {
 
     glfwSetFramebufferSizeCallback(_window, framebuffer_size_callback);
 
+    glEnable(GL_DEPTH_TEST);
+
     return true;
 }
 
-void App::close() const {
-    glfwDestroyWindow(_window);
-    glfwTerminate();
+void App::close() {
+    if (!_closed) {
+        glfwDestroyWindow(_window);
+        glfwTerminate();
+        _closed = true;
+    }
 }
 
-void App::clear() {
+void App::clear() const {
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    _defaultShader.use();
 }
 
 void App::tick() {
