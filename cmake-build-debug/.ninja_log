@@ -1,0 +1,12 @@
+# ninja log v6
+3	89	1738830098779362727	build.ninja	585fb0af77f3000f
+0	19	1738829923285104063	CMakeFiles/main.dir/main.cpp.o.ddi	1f6692d83af79018
+42	67	1738830006478204475	CMakeFiles/main.dir/CXX.dd	98c8768f692911d6
+42	67	1738830006478204475	/home/jenskromdijk3/CLionProjects/OpenGL Renderer/cmake-build-debug/CMakeFiles/main.dir/CXXModules.json	98c8768f692911d6
+42	67	1738830006478204475	CMakeFiles/main.dir/main.cpp.o.modmap	98c8768f692911d6
+1	300	1738830006438968580	CMakeFiles/main.dir/src/glad.c.o	d4e72d2e5345d9db
+40	84	1738829923325104017	CMakeFiles/main.dir/main.cpp.o	13c43bd38644296e
+300	440	1738830006736007388	main	c3cf6851d8f66126
+1	42	1738830006437007736	CMakeFiles/main.dir/src/app.cpp.o.ddi	b50543f9405815d1
+42	67	1738830006478204475	CMakeFiles/main.dir/src/app.cpp.o.modmap	98c8768f692911d6
+67	163	1738830006503007659	CMakeFiles/main.dir/src/app.cpp.o	fab78d626bff7e6c

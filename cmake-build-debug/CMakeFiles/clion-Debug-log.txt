@@ -1,0 +1,4 @@
+/usr/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/usr/bin/ninja -G Ninja -S "/home/jenskromdijk3/CLionProjects/OpenGL Renderer" -B "/home/jenskromdijk3/CLionProjects/OpenGL Renderer/cmake-build-debug"
+-- Configuring done (0.0s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/jenskromdijk3/CLionProjects/OpenGL Renderer/cmake-build-debug
