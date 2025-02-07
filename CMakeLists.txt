@@ -26,6 +26,7 @@ set(SOURCES main.cpp
         src/shader.h
         src/texture.cpp
         src/texture.h
+        src/shapes.h
 )
 
 link_directories(${CMAKE_SOURCE_DIR}/lib)

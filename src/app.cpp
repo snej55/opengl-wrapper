@@ -1,5 +1,5 @@
 //
-// Created by jenskromdijk on 2/6/25.
+// Created by Jens Kromdijk on 2/6/25.
 //
 
 #include "app.h"
@@ -29,6 +29,10 @@ bool App::init(const int width, const int height, const char* title) {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+#ifdef __APPLE__
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+#endif
 
     _window = glfwCreateWindow(width, height, title, nullptr, nullptr);
     if (_window == nullptr) {
@@ -84,6 +88,26 @@ void App::tick() {
 
 bool App::shouldClose() const {
     return glfwWindowShouldClose(_window);
+}
+
+GLFWwindow* App::getWindow() const {
+    return _window;
+}
+
+int App::getWidth() const {
+    return _width;
+}
+
+int App::getHeight() const {
+    return _height;
+}
+
+void App::setTitle(const char* title) const {
+    glfwSetWindowTitle(_window, title);
+}
+
+float App::getDeltaTime() const {
+    return _deltaTime;
 }
 
 void App::framebuffer_size_callback(GLFWwindow* window, const int width, const int height) {

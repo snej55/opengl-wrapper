@@ -2,6 +2,11 @@
 // Created by jens kromdijk on 2/6/25.
 //
 
+/*
+ * TODO:
+ * draw rect
+ */
+
 #ifndef APP_H
 #define APP_H
 
@@ -20,6 +25,16 @@ public:
     void tick();
 
     [[nodiscard]] bool shouldClose() const;
+
+    [[nodiscard]] GLFWwindow* getWindow() const;
+
+    [[nodiscard]] int getWidth() const;
+
+    [[nodiscard]] int getHeight() const;
+
+    void setTitle(const char* title) const;
+
+    [[nodiscard]] float getDeltaTime() const;
 
     void close();
 

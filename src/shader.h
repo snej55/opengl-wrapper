@@ -31,8 +31,12 @@ public:
     unsigned int ID;
 
     Shader(const char* vertexPath, const char* fragmentPath, bool defaultShader = false);
+    Shader(const char* vert_shader_source, const char* frag_shader_source);
+
     // activate
     void use() const;
+
+    void close() const;
 
     void setBool(const std::string& name, bool value) const;
     void setInt(const std::string& name, int value) const;
