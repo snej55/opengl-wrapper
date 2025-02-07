@@ -33,7 +33,7 @@ private:
 
     bool _closed{false};
 
-    Shader _defaultShader;
+    Shader* _defaultShader{nullptr};
 
     // ----------------------------------------------------------- //
 

@@ -63,12 +63,12 @@ build CMakeFiles/main.dir/src/app.cpp.obj: CXX_COMPILER__main_unscanned_Debug C$
   OBJECT_DIR = CMakeFiles\main.dir
   OBJECT_FILE_DIR = CMakeFiles\main.dir\src
 
-build CMakeFiles/main.dir/src/glad.c.obj: C_COMPILER__main_unscanned_Debug C$:/Users/AnkenWannePC/CLionProjects/opengl-wrapper/src/glad.c || cmake_object_order_depends_target_main
-  DEP_FILE = CMakeFiles\main.dir\src\glad.c.obj.d
+build CMakeFiles/main.dir/src/extern/glad.c.obj: C_COMPILER__main_unscanned_Debug C$:/Users/AnkenWannePC/CLionProjects/opengl-wrapper/src/extern/glad.c || cmake_object_order_depends_target_main
+  DEP_FILE = CMakeFiles\main.dir\src\extern\glad.c.obj.d
   FLAGS = -g -fdiagnostics-color=always
   INCLUDES = -IC:/Users/AnkenWannePC/CLionProjects/opengl-wrapper/include/windows
   OBJECT_DIR = CMakeFiles\main.dir
-  OBJECT_FILE_DIR = CMakeFiles\main.dir\src
+  OBJECT_FILE_DIR = CMakeFiles\main.dir\src\extern
 
 build CMakeFiles/main.dir/src/shader.cpp.obj: CXX_COMPILER__main_unscanned_Debug C$:/Users/AnkenWannePC/CLionProjects/opengl-wrapper/src/shader.cpp || cmake_object_order_depends_target_main
   DEP_FILE = CMakeFiles\main.dir\src\shader.cpp.obj.d
@@ -92,10 +92,10 @@ build CMakeFiles/main.dir/src/texture.cpp.obj: CXX_COMPILER__main_unscanned_Debu
 #############################################
 # Link the executable main.exe
 
-build main.exe: CXX_EXECUTABLE_LINKER__main_Debug CMakeFiles/main.dir/main.cpp.obj CMakeFiles/main.dir/src/app.cpp.obj CMakeFiles/main.dir/src/glad.c.obj CMakeFiles/main.dir/src/shader.cpp.obj CMakeFiles/main.dir/src/texture.cpp.obj
+build main.exe: CXX_EXECUTABLE_LINKER__main_Debug CMakeFiles/main.dir/main.cpp.obj CMakeFiles/main.dir/src/app.cpp.obj CMakeFiles/main.dir/src/extern/glad.c.obj CMakeFiles/main.dir/src/shader.cpp.obj CMakeFiles/main.dir/src/texture.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lglfw3  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
-  LINK_PATH = -LC:/Users/AnkenWannePC/CLionProjects/opengl-wrapper/lib/windows
+  LINK_PATH = -LC:/Users/AnkenWannePC/CLionProjects/opengl-wrapper/lib
   OBJECT_DIR = CMakeFiles\main.dir
   POST_BUILD = cd .
   PRE_LINK = cd .

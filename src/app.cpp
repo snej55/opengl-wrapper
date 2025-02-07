@@ -8,7 +8,6 @@
 
 App::App(const int width, const int height, const char* title)
     // vertex & fragment paths don't matter for default shader
-    : _defaultShader{"default", "default", true}
 {
     // should only be called once
     if (!init(width, height, title)) {
@@ -52,11 +51,16 @@ bool App::init(const int width, const int height, const char* title) {
 
     glEnable(GL_DEPTH_TEST);
 
+    _defaultShader = new Shader{"default", "default", true};
+
     return true;
 }
 
 void App::close() {
     if (!_closed) {
+        // cleanup
+        delete _defaultShader;
+
         glfwDestroyWindow(_window);
         glfwTerminate();
         _closed = true;
@@ -66,13 +70,16 @@ void App::close() {
 void App::clear() const {
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    _defaultShader.use();
+    _defaultShader->use();
 }
 
 void App::tick() {
     const float currentFrame {static_cast<float>(glfwGetTime()) * 0.001f};
     _deltaTime = currentFrame - _lastFrame;
     _lastFrame = currentFrame;
+
+    glfwSwapBuffers(_window);
+    glfwPollEvents();
 }
 
 bool App::shouldClose() const {

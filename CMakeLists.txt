@@ -21,14 +21,14 @@ endif()
 set(SOURCES main.cpp
         src/app.cpp
         src/app.h
-        src/glad.c
+        src/extern/glad.c
         src/shader.cpp
         src/shader.h
         src/texture.cpp
         src/texture.h
 )
 
-link_directories(${CMAKE_SOURCE_DIR}/lib/windows)
+link_directories(${CMAKE_SOURCE_DIR}/lib)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
