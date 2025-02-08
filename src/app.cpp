@@ -58,6 +58,7 @@ bool App::init(const int width, const int height, const char* title) {
     _defaultShader = new Shader{"default", "default", true};
 
     Shapes.init();
+    TexHandler.init();
 
     return true;
 }
@@ -74,6 +75,8 @@ void App::close() {
         // cleanup
         _defaultShader->close();
         delete _defaultShader;
+
+        Shapes.close();
 
         glfwDestroyWindow(_window);
         glfwTerminate();
@@ -139,4 +142,18 @@ void App::drawRect(const float x, const float y, const float w, const float h, c
 
 void App::drawRect(const FRect rect, const int r, const int g, const int b) const {
     Shapes.drawRect(rect, {r, g, b});
+}
+
+Texture* App::loadTexture(const char* path) {
+    Texture* texture {new Texture};
+    texture->loadFromFile(path);
+    return texture;
+}
+
+void App::freeTexture(const Texture* texture) {
+    delete texture;
+}
+
+void App::drawTexture(const Texture* texture, const FRect destination) const {
+    TexHandler.drawTexture(texture, destination);
 }

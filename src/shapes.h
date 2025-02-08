@@ -10,7 +10,7 @@
 
 #include "./shader.h"
 
-// should probably use FRect instead
+// should use FRect instead for most use cases
 struct IRect {
     int x{0};
     int y{0};
@@ -38,14 +38,14 @@ struct Color {
     int a{255};
 };
 
-inline float rectVertices[] = {
+inline float RectVertices[] = {
     1.0f,  0.0f, 0.0f,  // top right
     1.0f, -1.0f, 0.0f,  // bottom right
    0.0f, -1.0f, 0.0f,  // bottom left
    0.0f,  0.0f, 0.0f   // top left
 };
 
-inline unsigned int rectIndices[] {
+inline unsigned int RectIndices[] {
     0, 1, 3,  // first Triangle
     1, 2, 3   // second Triangle
 };
@@ -61,10 +61,10 @@ public:
         glBindVertexArray(rectVAO);
 
         glBindBuffer(GL_ARRAY_BUFFER, rectVBO);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(rectVertices), rectVertices, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(RectVertices), RectVertices, GL_STATIC_DRAW);
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, rectEBO);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(rectIndices), rectIndices, GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(RectIndices), RectIndices, GL_STATIC_DRAW);
 
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), reinterpret_cast<void *>(0));
         glEnableVertexAttribArray(0);
@@ -139,35 +139,5 @@ private:
         return {static_cast<float>(color.r) / 255.0f, static_cast<float>(color.g) / 255.0f, static_cast<float>(color.b) / 255.0f};
     }
 };
-
-namespace ShapesN {
-    struct Rect {
-        int x{0};
-        int y{0};
-        int w{0};
-        int h{0};
-    };
-
-    struct Circle {
-        int x{0};
-        int y{0};
-        int radius{0};
-    };
-
-    inline float rectVertices[] {
-        0.5f,  0.5f, 0.0f,  // top right
-        0.5f, -0.5f, 0.0f,  // bottom right
-        -0.5f, -0.5f, 0.0f,  // bottom left
-        -0.5f,  0.5f, 0.0f   // top left
-    };
-
-    inline void drawRect(Rect& rect) {
-
-    }
-
-    inline void drawRect(Rect&& rect, Shader& shader) {
-
-    }
-}
 
 #endif //SHAPES_H

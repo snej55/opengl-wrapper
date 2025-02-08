@@ -13,6 +13,7 @@
 
 #include "./shader.h"
 #include "./shapes.h"
+#include "./texture.h"
 
 class App {
 public:
@@ -45,6 +46,11 @@ public:
     void drawRect(float x, float y, float w, float h, int r, int g, int b) const;
     void drawRect(FRect rect, int r, int g, int b) const;
 
+    // ---------- Textures ---------- //
+    Texture* loadTexture(const char* path);
+    void freeTexture(const Texture* texture);
+    void drawTexture(const Texture* texture, FRect destination) const;
+
 private:
     GLFWwindow* _window{nullptr};
     int _width{0};
@@ -57,6 +63,7 @@ private:
 
     Shader* _defaultShader{nullptr};
     Shapes Shapes{};
+    TexHandler TexHandler{};
 
     // ----------------------------------------------------------- //
 

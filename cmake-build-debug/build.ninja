@@ -47,7 +47,7 @@ cmake_ninja_workdir = C$:/Users/AnkenWannePC/CLionProjects/opengl-wrapper/cmake-
 #############################################
 # Order-only phony target for main
 
-build cmake_object_order_depends_target_main: phony || .
+build cmake_object_order_depends_target_main: phony || copy_assets
 
 build CMakeFiles/main.dir/main.cpp.obj: CXX_COMPILER__main_unscanned_Debug C$:/Users/AnkenWannePC/CLionProjects/opengl-wrapper/main.cpp || cmake_object_order_depends_target_main
   DEP_FILE = CMakeFiles\main.dir\main.cpp.obj.d
@@ -92,7 +92,7 @@ build CMakeFiles/main.dir/src/texture.cpp.obj: CXX_COMPILER__main_unscanned_Debu
 #############################################
 # Link the executable main.exe
 
-build main.exe: CXX_EXECUTABLE_LINKER__main_Debug CMakeFiles/main.dir/main.cpp.obj CMakeFiles/main.dir/src/app.cpp.obj CMakeFiles/main.dir/src/extern/glad.c.obj CMakeFiles/main.dir/src/shader.cpp.obj CMakeFiles/main.dir/src/texture.cpp.obj
+build main.exe: CXX_EXECUTABLE_LINKER__main_Debug CMakeFiles/main.dir/main.cpp.obj CMakeFiles/main.dir/src/app.cpp.obj CMakeFiles/main.dir/src/extern/glad.c.obj CMakeFiles/main.dir/src/shader.cpp.obj CMakeFiles/main.dir/src/texture.cpp.obj || copy_assets
   FLAGS = -g
   LINK_LIBRARIES = -lglfw3  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   LINK_PATH = -LC:/Users/AnkenWannePC/CLionProjects/opengl-wrapper/lib
@@ -102,6 +102,12 @@ build main.exe: CXX_EXECUTABLE_LINKER__main_Debug CMakeFiles/main.dir/main.cpp.o
   TARGET_FILE = main.exe
   TARGET_IMPLIB = libmain.dll.a
   TARGET_PDB = main.exe.dbg
+
+
+#############################################
+# Utility command for copy_assets
+
+build copy_assets: phony CMakeFiles/copy_assets
 
 
 #############################################
@@ -125,6 +131,13 @@ build CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
   restat = 1
 
 build rebuild_cache: phony CMakeFiles/rebuild_cache.util
+
+
+#############################################
+# Custom command for CMakeFiles\copy_assets
+
+build CMakeFiles/copy_assets | ${cmake_ninja_workdir}CMakeFiles/copy_assets: CUSTOM_COMMAND
+  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\AnkenWannePC\CLionProjects\opengl-wrapper\cmake-build-debug && "C:\Program Files\JetBrains\CLion 2024.3.1.1\bin\cmake\win\x64\bin\cmake.exe" -E copy_directory C:/Users/AnkenWannePC/CLionProjects/opengl-wrapper/data C:/Users/AnkenWannePC/CLionProjects/opengl-wrapper/cmake-build-debug/data"
 
 # =============================================================================
 # Target aliases.

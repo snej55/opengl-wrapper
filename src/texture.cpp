@@ -1,5 +1,5 @@
 //
-// Created by AnkenWannePC on 31/01/2025.
+// Created by Jens Kromdijk on 31/01/2025.
 //
 
 #include "texture.h"
@@ -11,6 +11,10 @@
 #include <ostream>
 
 Texture::Texture(const char* path) {
+    loadFromFile(path);
+}
+
+void Texture::loadFromFile(const char* path) {
     unsigned int tex;
     glGenTextures(1, &tex);
     glBindTexture(GL_TEXTURE_2D, tex);
@@ -50,4 +54,53 @@ int Texture::getHeight() const {
 
 int Texture::getNumOfChannels() const {
     return _nrChannels;
+}
+
+void TexHandler::init() {
+    glGenVertexArrays(1, &VAO);
+    glGenBuffers(1, &VBO);
+    glGenBuffers(1, &EBO);
+
+    glBindVertexArray(VAO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(TexRectVertices), TexRectVertices, GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(RectIndices), RectIndices, GL_STATIC_DRAW);
+
+    // vertex coordinates
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), reinterpret_cast<void*>(0));
+    glEnableVertexAttribArray(0);
+    // texture coordinates
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), reinterpret_cast<void*>(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+
+    // can safely unbind
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+
+    texShader = new Shader{true, vertShaderSource, fragShaderSource};
+}
+
+void TexHandler::close() const {
+    texShader->close();
+    delete texShader;
+    glDeleteVertexArrays(1, &VAO);
+    glDeleteBuffers(1, &VBO);
+    glDeleteBuffers(1, &EBO);
+}
+
+void TexHandler::drawTexture(const Texture* texture, const FRect destination) const {
+    glm::mat4 model {1.0f};
+    model = glm::translate(model, glm::vec3(destination.x, destination.y, 0.0f));
+    model = glm::scale(model, glm::vec3(destination.w, destination.h, 1.0f));
+
+    texture->activate(GL_TEXTURE0);
+
+    texShader->use();
+    texShader->setMat4("model", model);
+    texShader->setInt("tex", 0);
+    glBindVertexArray(VAO);
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 }
