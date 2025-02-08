@@ -2,7 +2,15 @@
 // Created by jens kromdijk on 2/6/25.
 //
 
-/*
+/* TODO:
+ * 1. OpenGL Context ✔
+ * 2. Shaders ✔
+ * 3. Drawing rects ✔
+ * 4. Drawing textures ✔
+ * 5. Better coordinate system
+ * ----------------- 3D ----------------- *
+ * 6. Model loading
+ * 7. Lighting
  */
 
 #ifndef APP_H
