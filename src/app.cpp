@@ -57,12 +57,22 @@ bool App::init(const int width, const int height, const char* title) {
 
     _defaultShader = new Shader{"default", "default", true};
 
+    Shapes.init();
+
     return true;
 }
+
+void App::handleInput() const {
+    if (glfwGetKey(_window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+        glfwSetWindowShouldClose(_window, true);
+    }
+}
+
 
 void App::close() {
     if (!_closed) {
         // cleanup
+        _defaultShader->close();
         delete _defaultShader;
 
         glfwDestroyWindow(_window);
@@ -78,12 +88,12 @@ void App::clear() const {
 }
 
 void App::tick() {
+    glfwSwapBuffers(_window);
+    glfwPollEvents();
+
     const float currentFrame {static_cast<float>(glfwGetTime()) * 0.001f};
     _deltaTime = currentFrame - _lastFrame;
     _lastFrame = currentFrame;
-
-    glfwSwapBuffers(_window);
-    glfwPollEvents();
 }
 
 bool App::shouldClose() const {
@@ -112,4 +122,21 @@ float App::getDeltaTime() const {
 
 void App::framebuffer_size_callback(GLFWwindow* window, const int width, const int height) {
     glViewport(0, 0, width, height);
+}
+
+// --------------- Shapes ---------------- //
+void App::drawRect(const Rect rect, const Color color) const {
+    Shapes.drawRect(rect, color);
+}
+
+void App::drawRect(const int x, const int y, const int w, const int h, const Color color) const {
+    Shapes.drawRect({x, y, w, h}, color);
+}
+
+void App::drawRect(const int x, const int y, const int w, const int h, const int r, const int g, const int b) const {
+    Shapes.drawRect({x, y, w, h}, {r, g, b});
+}
+
+void App::drawRect(const Rect rect, const int r, const int g, const int b) const {
+    Shapes.drawRect(rect, {r, g, b});
 }

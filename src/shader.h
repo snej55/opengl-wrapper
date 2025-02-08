@@ -31,7 +31,7 @@ public:
     unsigned int ID;
 
     Shader(const char* vertexPath, const char* fragmentPath, bool defaultShader = false);
-    Shader(const char* vert_shader_source, const char* frag_shader_source);
+    Shader(bool source, const char* vert_shader_source, const char* frag_shader_source);
 
     // activate
     void use() const;

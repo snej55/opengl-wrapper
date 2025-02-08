@@ -89,7 +89,7 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath, bool defaultSha
     glDeleteShader(fragment);
 }
 
-Shader::Shader(const char* vert_shader_source, const char* frag_shader_source) {
+Shader::Shader(bool source, const char* vert_shader_source, const char* frag_shader_source) {
     std::string vertexCode;
     std::string fragmentCode;
 

@@ -14,6 +14,7 @@
 #include <GLFW/glfw3.h>
 
 #include "./shader.h"
+#include "./shapes.h"
 
 class App {
 public:
@@ -36,7 +37,15 @@ public:
 
     [[nodiscard]] float getDeltaTime() const;
 
+    void handleInput() const;
+
     void close();
+
+    // ---------- Shapes ------------ //
+    void drawRect(Rect rect, Color color) const;
+    void drawRect(int x, int y, int w, int h, Color color) const;
+    void drawRect(int x, int y, int w, int h, int r, int g, int b) const;
+    void drawRect(Rect rect, int r, int g, int b) const;
 
 private:
     GLFWwindow* _window{nullptr};
@@ -49,6 +58,7 @@ private:
     bool _closed{false};
 
     Shader* _defaultShader{nullptr};
+    Shapes Shapes{};
 
     // ----------------------------------------------------------- //
 
