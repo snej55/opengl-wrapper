@@ -10,11 +10,19 @@
 
 #include "./shader.h"
 
-struct Rect {
+// should probably use FRect instead
+struct IRect {
     int x{0};
     int y{0};
     int w{0};
     int h{0};
+};
+
+struct FRect {
+    float x{0};
+    float y{0};
+    float w{0};
+    float h{0};
 };
 
 struct Circle {
@@ -31,10 +39,10 @@ struct Color {
 };
 
 inline float rectVertices[] = {
-    0.5f,  0.5f, 0.0f,  // top right
-    0.5f, -0.5f, 0.0f,  // bottom right
-   -0.5f, -0.5f, 0.0f,  // bottom left
-   -0.5f,  0.5f, 0.0f   // top left
+    1.0f,  0.0f, 0.0f,  // top right
+    1.0f, -1.0f, 0.0f,  // bottom right
+   0.0f, -1.0f, 0.0f,  // bottom left
+   0.0f,  0.0f, 0.0f   // top left
 };
 
 inline unsigned int rectIndices[] {
@@ -46,7 +54,7 @@ class Shapes {
 public:
     Shapes() = default;
     void init() {
-        glGenBuffers(1, &rectVAO);
+        glGenVertexArrays(1, &rectVAO);
         glGenBuffers(1, &rectVBO);
         glGenBuffers(1, &rectEBO);
 
@@ -61,8 +69,8 @@ public:
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), reinterpret_cast<void *>(0));
         glEnableVertexAttribArray(0);
 
-        glBindBuffer(GL_ARRAY_BUFFER, 0); // unbind
-
+        // we can now safely unbind
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindVertexArray(0);
 
         colorShader = new Shader{true, vertShaderSource, fragShaderSource};
@@ -76,18 +84,33 @@ public:
         glDeleteBuffers(1, &rectEBO);
     }
 
-    void drawRect(const Rect rect, Color color) const {
+    // if you want to draw an IRect for some reason
+    void drawIRect(const IRect rect, const Color color) const {
         glm::mat4 model {1.0f};
         model = glm::translate(model, glm::vec3(rect.x, rect.y, 0.0f));
         model = glm::scale(model, glm::vec3(rect.w, rect.h, 1.0f));
 
         colorShader->use();
         colorShader->setMat4("model", model);
-        colorShader->setVec3("shapeColor", {color.r, color.g, color.b});
+        colorShader->setVec3("shapeColor", color2vec(color));
         glBindVertexArray(rectVAO);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, rectEBO);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-        glBindVertexArray(0);
+        // glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, rectEBO);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+        // glBindVertexArray(0);
+    }
+
+    void drawRect(const FRect rect, const Color color) const {
+        glm::mat4 model {1.0f};
+        model = glm::translate(model, glm::vec3(rect.x, rect.y, 0.0f));
+        model = glm::scale(model, glm::vec3(rect.w, rect.h, 1.0f));
+
+        colorShader->use();
+        colorShader->setMat4("model", model);
+        colorShader->setVec3("shapeColor", color2vec(color));
+        glBindVertexArray(rectVAO);
+        // glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, rectEBO);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+        // glBindVertexArray(0);
     }
 
 private:
@@ -97,7 +120,7 @@ private:
         "uniform mat4 model;"
         "void main()\n"
         "{\n"
-        "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+        "   gl_Position = model * vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
         "}\0";
 
     const char* fragShaderSource = "#version 330 core\n"
@@ -105,7 +128,7 @@ private:
         "uniform vec3 shapeColor;"
         "void main()\n"
         "{\n"
-        "   FragColor = vec4(1.0f, 1.0f, 0.0f, 1.0f);\n"
+        "   FragColor = vec4(shapeColor, 1.0f);\n"
         "}\n\0";
 
     unsigned int rectVBO{}, rectVAO{}, rectEBO{};

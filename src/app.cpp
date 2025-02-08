@@ -125,18 +125,18 @@ void App::framebuffer_size_callback(GLFWwindow* window, const int width, const i
 }
 
 // --------------- Shapes ---------------- //
-void App::drawRect(const Rect rect, const Color color) const {
+void App::drawRect(const FRect rect, const Color color) const {
     Shapes.drawRect(rect, color);
 }
 
-void App::drawRect(const int x, const int y, const int w, const int h, const Color color) const {
+void App::drawRect(const float x, const float y, const float w, const float h, const Color color) const {
     Shapes.drawRect({x, y, w, h}, color);
 }
 
-void App::drawRect(const int x, const int y, const int w, const int h, const int r, const int g, const int b) const {
+void App::drawRect(const float x, const float y, const float w, const float h, const int r, const int g, const int b) const {
     Shapes.drawRect({x, y, w, h}, {r, g, b});
 }
 
-void App::drawRect(const Rect rect, const int r, const int g, const int b) const {
+void App::drawRect(const FRect rect, const int r, const int g, const int b) const {
     Shapes.drawRect(rect, {r, g, b});
 }

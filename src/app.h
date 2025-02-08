@@ -3,8 +3,6 @@
 //
 
 /*
- * TODO:
- * draw rect
  */
 
 #ifndef APP_H
@@ -42,10 +40,10 @@ public:
     void close();
 
     // ---------- Shapes ------------ //
-    void drawRect(Rect rect, Color color) const;
-    void drawRect(int x, int y, int w, int h, Color color) const;
-    void drawRect(int x, int y, int w, int h, int r, int g, int b) const;
-    void drawRect(Rect rect, int r, int g, int b) const;
+    void drawRect(FRect rect, Color color) const;
+    void drawRect(float x, float y, float w, float h, Color color) const;
+    void drawRect(float x, float y, float w, float h, int r, int g, int b) const;
+    void drawRect(FRect rect, int r, int g, int b) const;
 
 private:
     GLFWwindow* _window{nullptr};
