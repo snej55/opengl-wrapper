@@ -57,8 +57,8 @@ bool App::init(const int width, const int height, const char* title) {
 
     _defaultShader = new Shader{"default", "default", true};
 
-    Shapes.init();
-    TexHandler.init();
+    ShapeMan.init();
+    TexHandlerMan.init();
 
     return true;
 }
@@ -76,7 +76,7 @@ void App::close() {
         _defaultShader->close();
         delete _defaultShader;
 
-        Shapes.close();
+        ShapeMan.close();
 
         glfwDestroyWindow(_window);
         glfwTerminate();
@@ -129,19 +129,19 @@ void App::framebuffer_size_callback(GLFWwindow* window, const int width, const i
 
 // --------------- Shapes ---------------- //
 void App::drawRect(const FRect rect, const Color color) const {
-    Shapes.drawRect(rect, color);
+    ShapeMan.drawRect(rect, color);
 }
 
 void App::drawRect(const float x, const float y, const float w, const float h, const Color color) const {
-    Shapes.drawRect({x, y, w, h}, color);
+    ShapeMan.drawRect({x, y, w, h}, color);
 }
 
 void App::drawRect(const float x, const float y, const float w, const float h, const int r, const int g, const int b) const {
-    Shapes.drawRect({x, y, w, h}, {r, g, b});
+    ShapeMan.drawRect({x, y, w, h}, {r, g, b});
 }
 
 void App::drawRect(const FRect rect, const int r, const int g, const int b) const {
-    Shapes.drawRect(rect, {r, g, b});
+    ShapeMan.drawRect(rect, {r, g, b});
 }
 
 Texture* App::loadTexture(const char* path) {
@@ -155,5 +155,5 @@ void App::freeTexture(const Texture* texture) {
 }
 
 void App::drawTexture(const Texture* texture, const FRect destination) const {
-    TexHandler.drawTexture(texture, destination);
+    TexHandlerMan.drawTexture(texture, destination);
 }

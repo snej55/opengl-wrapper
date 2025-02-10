@@ -70,8 +70,8 @@ private:
     bool _closed{false};
 
     Shader* _defaultShader{nullptr};
-    Shapes Shapes{};
-    TexHandler TexHandler{};
+    Shapes ShapeMan{};
+    TexHandler TexHandlerMan{};
 
     // ----------------------------------------------------------- //
 

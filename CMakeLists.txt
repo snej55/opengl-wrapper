@@ -11,10 +11,12 @@ if (CMAKE_SYSTEM MATCHES Windows)
     message(STATUS "Target system is Windows")
     # link/include for Windows x86
     include_directories(${CMAKE_SOURCE_DIR}/include/windows)
+    link_directories(${CMAKE_SOURCE_DIR}/lib)
 elseif (CMAKE_SYSTEM MATCHES Linux)
     message(STATUS "Target system is Linux")
     # link/include for linux x86
     include_directories(${CMAKE_SOURCE_DIR}/include/linux)
+    link_directories(${CMAKE_SOURCE_DIR}/lib/linux)
     set(GL_LIBS GL GLU glfw3)
 endif()
 
@@ -28,8 +30,6 @@ set(SOURCES main.cpp
         src/texture.h
         src/shapes.h
 )
-
-link_directories(${CMAKE_SOURCE_DIR}/lib)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 

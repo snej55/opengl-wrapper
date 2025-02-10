@@ -1,4 +1,0 @@
-C:/Users/AnkenWannePC/CLionProjects/opengl-wrapper/cmake-build-debug/CMakeFiles/main.dir
-C:/Users/AnkenWannePC/CLionProjects/opengl-wrapper/cmake-build-debug/CMakeFiles/copy_assets.dir
-C:/Users/AnkenWannePC/CLionProjects/opengl-wrapper/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/AnkenWannePC/CLionProjects/opengl-wrapper/cmake-build-debug/CMakeFiles/rebuild_cache.dir
