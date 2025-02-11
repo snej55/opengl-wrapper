@@ -96,6 +96,9 @@ void TexHandler::drawTexture(const Texture* texture, const FRect destination) co
     model = glm::translate(model, glm::vec3(destination.x, destination.y, 0.0f));
     model = glm::scale(model, glm::vec3(destination.w, destination.h, 1.0f));
 
+    // model = glm::scale(model, glm::vec3(0.5f, 0.5f, 1.0f));
+    // model = glm::translate(model, glm::vec3(0.5f, 0.5f, 0.0f));
+
     texture->activate(GL_TEXTURE0);
 
     texShader->use();

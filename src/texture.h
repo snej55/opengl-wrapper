@@ -8,7 +8,7 @@
 #include <glad/glad.h>
 
 #include "./shader.h"
-#include "shapes.h"
+#include "./shapes.h"
 
 inline float TexRectVertices[] = {
     1.0f,  0.0f, 0.0f,  1.0f, 1.0f,  // top right

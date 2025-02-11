@@ -17,7 +17,7 @@ elseif (CMAKE_SYSTEM MATCHES Linux)
     # link/include for linux x86
     include_directories(${CMAKE_SOURCE_DIR}/include/linux)
     link_directories(${CMAKE_SOURCE_DIR}/lib/linux)
-    set(GL_LIBS GL GLU glfw3)
+    set(GL_LIBS GL GLU glfw3 assimp)
 endif()
 
 set(SOURCES main.cpp
@@ -29,6 +29,8 @@ set(SOURCES main.cpp
         src/texture.cpp
         src/texture.h
         src/shapes.h
+        src/mesh.cpp
+        src/mesh.h
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
