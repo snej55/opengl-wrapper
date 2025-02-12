@@ -141,7 +141,24 @@ build CMakeFiles/main.dir/src/mesh.cpp.o: CXX_COMPILER__main_scanned_Debug /home
   OBJECT_FILE_DIR = CMakeFiles/main.dir/src
   dyndep = CMakeFiles/main.dir/CXX.dd
 
-build CMakeFiles/main.dir/CXX.dd | /home/jenskromdijk3/CLionProjects/OpenGL$ Renderer/cmake-build-debug/CMakeFiles/main.dir/CXXModules.json CMakeFiles/main.dir/main.cpp.o.modmap CMakeFiles/main.dir/src/app.cpp.o.modmap CMakeFiles/main.dir/src/shader.cpp.o.modmap CMakeFiles/main.dir/src/texture.cpp.o.modmap CMakeFiles/main.dir/src/mesh.cpp.o.modmap: CXX_DYNDEP__main_Debug CMakeFiles/main.dir/main.cpp.o.ddi CMakeFiles/main.dir/src/app.cpp.o.ddi CMakeFiles/main.dir/src/shader.cpp.o.ddi CMakeFiles/main.dir/src/texture.cpp.o.ddi CMakeFiles/main.dir/src/mesh.cpp.o.ddi | /home/jenskromdijk3/CLionProjects/OpenGL$ Renderer/cmake-build-debug/CMakeFiles/main.dir/CXXDependInfo.json
+build CMakeFiles/main.dir/src/model.cpp.o.ddi: CXX_SCAN__main_Debug /home/jenskromdijk3/CLionProjects/OpenGL$ Renderer/src/model.cpp || cmake_object_order_depends_target_main
+  DEP_FILE = CMakeFiles/main.dir/src/model.cpp.o.ddi.d
+  DYNDEP_INTERMEDIATE_FILE = CMakeFiles/main.dir/src/model.cpp.o.ddi
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -I"/home/jenskromdijk3/CLionProjects/OpenGL Renderer/include/linux"
+  OBJ_FILE = CMakeFiles/main.dir/src/model.cpp.o
+  PREPROCESSED_OUTPUT_FILE = CMakeFiles/main.dir/src/model.cpp.o.ddi.i
+
+build CMakeFiles/main.dir/src/model.cpp.o: CXX_COMPILER__main_scanned_Debug /home/jenskromdijk3/CLionProjects/OpenGL$ Renderer/src/model.cpp | CMakeFiles/main.dir/src/model.cpp.o.modmap || cmake_object_order_depends_target_main CMakeFiles/main.dir/CXX.dd
+  DEP_FILE = CMakeFiles/main.dir/src/model.cpp.o.d
+  DYNDEP_MODULE_MAP_FILE = CMakeFiles/main.dir/src/model.cpp.o.modmap
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -I"/home/jenskromdijk3/CLionProjects/OpenGL Renderer/include/linux"
+  OBJECT_DIR = CMakeFiles/main.dir
+  OBJECT_FILE_DIR = CMakeFiles/main.dir/src
+  dyndep = CMakeFiles/main.dir/CXX.dd
+
+build CMakeFiles/main.dir/CXX.dd | /home/jenskromdijk3/CLionProjects/OpenGL$ Renderer/cmake-build-debug/CMakeFiles/main.dir/CXXModules.json CMakeFiles/main.dir/main.cpp.o.modmap CMakeFiles/main.dir/src/app.cpp.o.modmap CMakeFiles/main.dir/src/shader.cpp.o.modmap CMakeFiles/main.dir/src/texture.cpp.o.modmap CMakeFiles/main.dir/src/mesh.cpp.o.modmap CMakeFiles/main.dir/src/model.cpp.o.modmap: CXX_DYNDEP__main_Debug CMakeFiles/main.dir/main.cpp.o.ddi CMakeFiles/main.dir/src/app.cpp.o.ddi CMakeFiles/main.dir/src/shader.cpp.o.ddi CMakeFiles/main.dir/src/texture.cpp.o.ddi CMakeFiles/main.dir/src/mesh.cpp.o.ddi CMakeFiles/main.dir/src/model.cpp.o.ddi | /home/jenskromdijk3/CLionProjects/OpenGL$ Renderer/cmake-build-debug/CMakeFiles/main.dir/CXXDependInfo.json
 
 
 # =============================================================================
@@ -151,7 +168,7 @@ build CMakeFiles/main.dir/CXX.dd | /home/jenskromdijk3/CLionProjects/OpenGL$ Ren
 #############################################
 # Link the executable main
 
-build main: CXX_EXECUTABLE_LINKER__main_Debug CMakeFiles/main.dir/main.cpp.o CMakeFiles/main.dir/src/app.cpp.o CMakeFiles/main.dir/src/extern/glad.c.o CMakeFiles/main.dir/src/shader.cpp.o CMakeFiles/main.dir/src/texture.cpp.o CMakeFiles/main.dir/src/mesh.cpp.o || copy_assets
+build main: CXX_EXECUTABLE_LINKER__main_Debug CMakeFiles/main.dir/main.cpp.o CMakeFiles/main.dir/src/app.cpp.o CMakeFiles/main.dir/src/extern/glad.c.o CMakeFiles/main.dir/src/shader.cpp.o CMakeFiles/main.dir/src/texture.cpp.o CMakeFiles/main.dir/src/mesh.cpp.o CMakeFiles/main.dir/src/model.cpp.o || copy_assets
   DEP_FILE = CMakeFiles/main.dir/link.d
   FLAGS = -g
   LINK_FLAGS = -Wl,--dependency-file=CMakeFiles/main.dir/link.d

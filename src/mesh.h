@@ -31,8 +31,9 @@ public:
     std::vector<unsigned int> indices;
     std::vector<MeshN::Tex> textures;
 
-    Mesh(std::vector<MeshN::Vertex> vertices, std::vector<unsigned int> indices, std::vector<MeshN::Tex> textures);
-    void Draw(Shader& shader);
+    Mesh(const std::vector<MeshN::Vertex>& vertices, const std::vector<unsigned int>& indices, const std::vector<MeshN::Tex>& textures);
+
+    void Draw(const Shader &shader);
 
 private:
     unsigned int VAO, VBO, EBO;
