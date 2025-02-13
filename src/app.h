@@ -19,6 +19,9 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#define STB_IMAGE_IMPLEMENTATION
+#include <STB/stb_image.h>
+
 #include "./shader.h"
 #include "./shapes.h"
 #include "./texture.h"

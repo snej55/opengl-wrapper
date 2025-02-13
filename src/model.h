@@ -9,6 +9,8 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
+#include <stb/stb_image.h>
+
 #include "mesh.h"
 
 class Model {
