@@ -7,6 +7,9 @@
 #include <iostream>
 #include <ostream>
 
+#define STB_IMAGE_IMPLEMENTATION
+#include <STB/stb_image.h>
+
 Texture::Texture(const char* path) {
     loadFromFile(path);
 }

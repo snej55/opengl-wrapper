@@ -9,8 +9,8 @@
  * 4. Drawing textures ✔
  * 5. Better coordinate system
  * ----------------- 3D ----------------- *
- * 6. Model loading
- * 7. Lighting
+ * 6. Lighting/Objects
+ * 7. Model loading
  */
 
 #ifndef APP_H
@@ -18,9 +18,6 @@
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-
-#define STB_IMAGE_IMPLEMENTATION
-#include <STB/stb_image.h>
 
 #include "./shader.h"
 #include "./shapes.h"
