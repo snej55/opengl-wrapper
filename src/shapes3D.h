@@ -1,12 +1,12 @@
 //
-// Created by jenskromdijk3 on 2/14/25.
+// Created by jens kromdijk on 2/14/25.
 //
 
 #ifndef SHAPES3D_H
 #define SHAPES3D_H
 
 namespace Shapes3D {
-
+ // some vertices declarations
      inline float cubeVerticesTexCoords[] = {
         -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
          0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
@@ -140,7 +140,7 @@ namespace Shapes3D {
          -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f
      };
 
-     inline float vertices[] = {
+     inline float cubeVertices[] = {
          -0.5f, -0.5f, -0.5f,
           0.5f, -0.5f, -0.5f,
           0.5f,  0.5f, -0.5f,

@@ -29,8 +29,6 @@ set(SOURCES main.cpp
         src/texture.cpp
         src/texture.h
         src/shapes.h
-        src/object.cpp
-        src/object.h
         src/shapes3D.h
 )
 
