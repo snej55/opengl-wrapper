@@ -51,7 +51,11 @@ bool App::init(const int width, const int height, const char* title) {
     _height = height;
     glViewport(0, 0, width, height);
 
+    glfwSetWindowUserPointer(_window, this);
+
     glfwSetFramebufferSizeCallback(_window, framebuffer_size_callback);
+    glfwSetCursorPosCallback(_window, win_mouse_callback);
+    glfwSetScrollCallback(_window, win_scroll_callback);
 
     glEnable(GL_DEPTH_TEST);
 
@@ -61,12 +65,26 @@ bool App::init(const int width, const int height, const char* title) {
     TexHandlerMan.init();
     ObjHandlerMan.init();
 
+    // camera stuff
+    _camLastX = static_cast<float>(_width) / 2.0f;
+    _camLastY = static_cast<float>(_height) / 2.0f;
+
     return true;
 }
 
-void App::handleInput() const {
+void App::handleInput() {
     if (glfwGetKey(_window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
         glfwSetWindowShouldClose(_window, true);
+    }
+    if (_cameraEnabled) {
+        if (glfwGetKey(_window, GLFW_KEY_W) == GLFW_PRESS)
+            CameraMan.processInput(CameraN::CameraMotion::FORWARD, _deltaTime);
+        if (glfwGetKey(_window, GLFW_KEY_S) == GLFW_PRESS)
+            CameraMan.processInput(CameraN::CameraMotion::BACKWARD, _deltaTime);
+        if (glfwGetKey(_window, GLFW_KEY_A) == GLFW_PRESS)
+            CameraMan.processInput(CameraN::CameraMotion::LEFT, _deltaTime);
+        if (glfwGetKey(_window, GLFW_KEY_D) == GLFW_PRESS)
+            CameraMan.processInput(CameraN::CameraMotion::RIGHT, _deltaTime);
     }
 }
 
@@ -124,6 +142,15 @@ float App::getDeltaTime() const {
     return _deltaTime;
 }
 
+void App::setCameraEnabled(const bool val) {
+    _cameraEnabled = val;
+}
+
+bool App::getCameraEnabled() const {
+    return _cameraEnabled;
+}
+
+
 void App::framebuffer_size_callback(GLFWwindow* window, const int width, const int height) {
     glViewport(0, 0, width, height);
 }
@@ -145,6 +172,11 @@ void App::drawRect(const FRect rect, const int r, const int g, const int b) cons
     ShapeMan.drawRect(rect, {r, g, b});
 }
 
+void App::drawCube(const Objects::Cube& cube, const Shader &shader) const {
+    ObjHandlerMan.drawCube(shader, cube, glm::perspective(glm::radians(CameraMan.getZoom()), static_cast<float>(_width) / static_cast<float>(_height), 0.1f, 100.0f), CameraMan.getViewMatrix());
+}
+
+
 Texture* App::loadTexture(const char* path) {
     Texture* texture {new Texture};
     texture->loadFromFile(path);
@@ -158,3 +190,37 @@ void App::freeTexture(const Texture* texture) {
 void App::drawTexture(const Texture* texture, const FRect destination) const {
     TexHandlerMan.drawTexture(texture, destination);
 }
+
+void App::mouse_callback(GLFWwindow* window, double xPosIn, double yPosIn) {
+    const float xPos {static_cast<float>(xPosIn)};
+    const float yPos {static_cast<float>(yPosIn)};
+
+    if (_camFirstMouse) {
+        _camLastX = xPos;
+        _camLastY = yPos;
+        _camFirstMouse = false;
+    }
+
+    const float xOffset {xPos - _camLastX};
+    const float yOffset {yPos - _camLastY};
+
+    _camLastX = xPos;
+    _camLastY = yPos;
+
+    CameraMan.processMouseMovement(xOffset, yOffset);
+}
+
+void App::scroll_callback(GLFWwindow *window, double xOffset, double yOffset) {
+    CameraMan.processMouseScroll(static_cast<float>(yOffset));
+}
+
+void App::win_mouse_callback(GLFWwindow *window, const double xPosIn, const double yPosIn) {
+    if (App* handler {static_cast<App*>(glfwGetWindowUserPointer(window))})
+        handler->mouse_callback(window, xPosIn, yPosIn);
+}
+
+void App::win_scroll_callback(GLFWwindow* window, const double xOffset, const double yOffset) {
+    if (App* handler {static_cast<App*>(glfwGetWindowUserPointer(window))})
+        handler->scroll_callback(window, xOffset, yOffset);
+}
+

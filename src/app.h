@@ -23,6 +23,7 @@
 #include "./shapes.h"
 #include "./texture.h"
 #include "./objects.h"
+#include "./camera.h"
 
 class App {
 public:
@@ -45,7 +46,10 @@ public:
 
     [[nodiscard]] float getDeltaTime() const;
 
-    void handleInput() const;
+    void setCameraEnabled(bool val);
+    [[nodiscard]] bool getCameraEnabled() const;
+
+    void handleInput();
 
     void close();
 
@@ -55,10 +59,16 @@ public:
     void drawRect(float x, float y, float w, float h, int r, int g, int b) const;
     void drawRect(FRect rect, int r, int g, int b) const;
 
+    // ---------- Objects ----------- //
+    void drawCube(const Objects::Cube& cube, const Shader& shader) const;
+
     // ---------- Textures ---------- //
     Texture* loadTexture(const char* path);
     void freeTexture(const Texture* texture);
     void drawTexture(const Texture* texture, FRect destination) const;
+
+    void mouse_callback(GLFWwindow* window, double xPosIn, double yPosIn);
+    void scroll_callback(GLFWwindow* window, double xOffset, double yOffset);
 
 private:
     GLFWwindow* _window{nullptr};
@@ -75,11 +85,22 @@ private:
     TexHandler TexHandlerMan{};
     ObjectHandler ObjHandlerMan{};
 
+    // camera stuff
+    Camera CameraMan{};
+    float _camLastX{};
+    float _camLastY{};
+    bool _camFirstMouse{true};
+
+    bool _cameraEnabled{false};
+
     // ----------------------------------------------------------- //
 
     bool init(int width, int height, const char* title);
 
     static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+
+    static void win_mouse_callback(GLFWwindow* window, double xPosIn, double yPosIn);
+    static void win_scroll_callback(GLFWwindow* window, double xOffset, double yOffset);
 };
 
 

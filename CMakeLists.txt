@@ -31,7 +31,6 @@ set(SOURCES main.cpp
         src/shapes.h
         src/objectShapes3D.h
         src/objects.h
-        src/camera.cpp
         src/camera.h
 )
 
