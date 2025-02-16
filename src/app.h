@@ -22,6 +22,7 @@
 #include "./shader.h"
 #include "./shapes.h"
 #include "./texture.h"
+#include "./objects.h"
 
 class App {
 public:
@@ -72,6 +73,7 @@ private:
     Shader* _defaultShader{nullptr};
     Shapes ShapeMan{};
     TexHandler TexHandlerMan{};
+    ObjectHandler ObjHandlerMan{};
 
     // ----------------------------------------------------------- //
 

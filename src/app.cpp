@@ -59,6 +59,7 @@ bool App::init(const int width, const int height, const char* title) {
 
     ShapeMan.init();
     TexHandlerMan.init();
+    ObjHandlerMan.init();
 
     return true;
 }

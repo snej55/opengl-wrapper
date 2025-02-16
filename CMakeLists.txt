@@ -29,7 +29,10 @@ set(SOURCES main.cpp
         src/texture.cpp
         src/texture.h
         src/shapes.h
-        src/shapes3D.h
+        src/objectShapes3D.h
+        src/objects.h
+        src/camera.cpp
+        src/camera.h
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})

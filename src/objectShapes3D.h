@@ -6,7 +6,6 @@
 #define SHAPES3D_H
 
 namespace Shapes3D {
- // some vertices declarations
      inline float cubeVerticesTexCoords[] = {
         -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
          0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
@@ -183,7 +182,6 @@ namespace Shapes3D {
          -0.5f,  0.5f,  0.5f,
          -0.5f,  0.5f, -0.5f,
      };
-
 }
 
 #endif //SHAPES3D_H
