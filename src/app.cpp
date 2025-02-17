@@ -113,7 +113,7 @@ void App::tick() {
     glfwSwapBuffers(_window);
     glfwPollEvents();
 
-    const float currentFrame {static_cast<float>(glfwGetTime()) * 0.001f};
+    const float currentFrame {static_cast<float>(glfwGetTime())};
     _deltaTime = currentFrame - _lastFrame;
     _lastFrame = currentFrame;
 }
@@ -144,6 +144,10 @@ float App::getDeltaTime() const {
 
 void App::setCameraEnabled(const bool val) {
     _cameraEnabled = val;
+    if (_cameraEnabled)
+        glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    else
+        glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 }
 
 bool App::getCameraEnabled() const {
@@ -177,13 +181,13 @@ void App::drawCube(const Objects::Cube& cube, const Shader &shader) const {
 }
 
 
-Texture* App::loadTexture(const char* path) {
+Texture* App::loadTexture(const char* path) const {
     Texture* texture {new Texture};
     texture->loadFromFile(path);
     return texture;
 }
 
-void App::freeTexture(const Texture* texture) {
+void App::freeTexture(const Texture* texture) const {
     delete texture;
 }
 
@@ -191,7 +195,7 @@ void App::drawTexture(const Texture* texture, const FRect destination) const {
     TexHandlerMan.drawTexture(texture, destination);
 }
 
-void App::mouse_callback(GLFWwindow* window, double xPosIn, double yPosIn) {
+void App::mouse_callback(GLFWwindow* window, const double xPosIn, const double yPosIn) {
     const float xPos {static_cast<float>(xPosIn)};
     const float yPos {static_cast<float>(yPosIn)};
 
@@ -202,7 +206,7 @@ void App::mouse_callback(GLFWwindow* window, double xPosIn, double yPosIn) {
     }
 
     const float xOffset {xPos - _camLastX};
-    const float yOffset {yPos - _camLastY};
+    const float yOffset {_camLastY - yPos}; // remember to reverse because of reversed y coordinates
 
     _camLastX = xPos;
     _camLastY = yPos;

@@ -63,8 +63,8 @@ public:
     void drawCube(const Objects::Cube& cube, const Shader& shader) const;
 
     // ---------- Textures ---------- //
-    Texture* loadTexture(const char* path);
-    void freeTexture(const Texture* texture);
+    Texture* loadTexture(const char* path) const;
+    void freeTexture(const Texture* texture) const;
     void drawTexture(const Texture* texture, FRect destination) const;
 
     void mouse_callback(GLFWwindow* window, double xPosIn, double yPosIn);

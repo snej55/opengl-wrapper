@@ -28,8 +28,8 @@ namespace CameraN {
 class Camera {
 public:
     Camera() {
-        _position = glm::vec3(0.0f, 0.0f, 0.0f);
-        _front = glm::vec3(0.0f, 0.0f, 3.0f);
+        _position = glm::vec3(0.0f, 0.0f, 3.0f);
+        _front = glm::vec3(0.0f, 0.0f, -1.0f);
         _up = glm::vec3(0.0f, 1.0f, 0.0f);
         _worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
         _yaw = CameraN::YAW;
@@ -73,7 +73,8 @@ public:
         if (constrainPitch) {
             if (_pitch > 89.0f) {
                 _pitch = 89.0f;
-            } else if (_pitch < -89.0f) {
+            }
+            if (_pitch < -89.0f) {
                 _pitch = -89.0f;
             }
         }
@@ -84,7 +85,7 @@ public:
 
     void processMouseScroll(const float yOffset) {
         _zoom -= yOffset;
-        if (_zoom > 1.0f) {
+        if (_zoom < 1.0f) {
             _zoom = 1.0f;
         }
         if (_zoom > 45.0f) {
