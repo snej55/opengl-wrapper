@@ -53,7 +53,7 @@ bool App::init(const int width, const int height, const char* title) {
 
     glfwSetWindowUserPointer(_window, this);
 
-    glfwSetFramebufferSizeCallback(_window, framebuffer_size_callback);
+    glfwSetFramebufferSizeCallback(_window, win_framebuffer_size_callback);
     glfwSetCursorPosCallback(_window, win_mouse_callback);
     glfwSetScrollCallback(_window, win_scroll_callback);
 
@@ -154,11 +154,6 @@ bool App::getCameraEnabled() const {
     return _cameraEnabled;
 }
 
-
-void App::framebuffer_size_callback(GLFWwindow* window, const int width, const int height) {
-    glViewport(0, 0, width, height);
-}
-
 // --------------- Shapes ---------------- //
 void App::drawRect(const FRect rect, const Color color) const {
     ShapeMan.drawRect(rect, color);
@@ -177,7 +172,7 @@ void App::drawRect(const FRect rect, const int r, const int g, const int b) cons
 }
 
 void App::drawCube(const Objects::Cube& cube, const Shader &shader) const {
-    ObjHandlerMan.drawCube(shader, cube, glm::perspective(glm::radians(CameraMan.getZoom()), static_cast<float>(_width) / static_cast<float>(_height), 0.1f, 100.0f), CameraMan.getViewMatrix());
+    ObjHandlerMan.drawCube(shader, cube, getPerspectiveMatrix(), getViewMatrix());
 }
 
 
@@ -218,6 +213,12 @@ void App::scroll_callback(GLFWwindow *window, double xOffset, double yOffset) {
     CameraMan.processMouseScroll(static_cast<float>(yOffset));
 }
 
+void App::framebuffer_size_callback(GLFWwindow* window, const int width, const int height) {
+    _width = width;
+    _height = height;
+    glViewport(0, 0, width, height);
+}
+
 void App::win_mouse_callback(GLFWwindow *window, const double xPosIn, const double yPosIn) {
     if (App* handler {static_cast<App*>(glfwGetWindowUserPointer(window))})
         handler->mouse_callback(window, xPosIn, yPosIn);
@@ -228,3 +229,17 @@ void App::win_scroll_callback(GLFWwindow* window, const double xOffset, const do
         handler->scroll_callback(window, xOffset, yOffset);
 }
 
+void App::win_framebuffer_size_callback(GLFWwindow *window, int width, int height) {
+    if (App* handler {static_cast<App*>(glfwGetWindowUserPointer(window))})
+        handler->framebuffer_size_callback(window, width, height);
+}
+
+
+// perspective & view matrices getters
+glm::mat4 App::getPerspectiveMatrix() const {
+    return glm::perspective(glm::radians(CameraMan.getZoom()), static_cast<float>(_width) / static_cast<float>(_height), 0.1f, 100.0f);
+}
+
+glm::mat4 App::getViewMatrix() const {
+    return CameraMan.getViewMatrix();
+}

@@ -11,6 +11,11 @@
  * ----------------- 3D ----------------- *
  * 6. Lighting/Objects
  * 7. Model loading
+ * 8. Shadows
+ * 9. Box collisions
+ *
+ * Today:
+ * 3. Add getters and setters for camera class
  */
 
 #ifndef APP_H
@@ -67,8 +72,14 @@ public:
     void freeTexture(const Texture* texture) const;
     void drawTexture(const Texture* texture, FRect destination) const;
 
+    // window callbacks
     void mouse_callback(GLFWwindow* window, double xPosIn, double yPosIn);
     void scroll_callback(GLFWwindow* window, double xOffset, double yOffset);
+    void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+
+    // view & perspective matrices getters
+    glm::mat4 getPerspectiveMatrix() const;
+    glm::mat4 getViewMatrix() const;
 
 private:
     GLFWwindow* _window{nullptr};
@@ -97,7 +108,7 @@ private:
 
     bool init(int width, int height, const char* title);
 
-    static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+    static void win_framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
     static void win_mouse_callback(GLFWwindow* window, double xPosIn, double yPosIn);
     static void win_scroll_callback(GLFWwindow* window, double xOffset, double yOffset);

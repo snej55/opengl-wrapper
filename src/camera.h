@@ -97,6 +97,42 @@ public:
         return _zoom;
     }
 
+    glm::vec3 getPosition() const {
+        return _position;
+    }
+
+    glm::vec3 getFront() const {
+        return _front;
+    }
+
+    glm::vec3 getUp() const {
+        return _up;
+    }
+
+    glm::vec3 getRight() const {
+        return _right;
+    }
+
+    glm::vec3 getWorldUp() const {
+        return _worldUp;
+    }
+
+    float getYaw() const {
+        return _yaw;
+    }
+
+    float getPitch() const {
+        return _pitch;
+    }
+
+    float getMovementSpeed() const {
+        return _movementSpeed;
+    }
+
+    float getMouseSensitivity() const {
+        return _mouseSensitivity;
+    }
+
 private:
     glm::vec3 _position{};
     glm::vec3 _front{};
