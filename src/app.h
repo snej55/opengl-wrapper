@@ -65,8 +65,8 @@ public:
     void drawRect(FRect rect, int r, int g, int b) const;
 
     // ---------- Objects ----------- //
-    void drawCube(const Objects::Cube& cube, const Shader& shader, float angle = 0.0f, glm::vec3 rotateAxis = {1.0f, 1.0f, 1.0f}) const;
-    void drawCubeNormals(const Objects::Cube& cube, const Shader& shader, float angle = 0.0f, glm::vec3 rotateAxis = {1.0f, 1.0f, 1.0f}) const;
+    void drawCube(const Objects::Cube& cube, const Shader& shader, CubeVertexDatOption type = CUBE_VERTICES, float angle = 0.0f, glm::vec3 rotateAxis = {1.0f, 1.0f, 1.0f}) const;
+    // void drawCubeNormals(const Objects::Cube& cube, const Shader& shader, float angle = 0.0f, glm::vec3 rotateAxis = {1.0f, 1.0f, 1.0f}) const;
 
     // ---------- Textures ---------- //
     Texture* loadTexture(const char* path) const;

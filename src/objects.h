@@ -44,6 +44,8 @@ public:
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), reinterpret_cast<void *>(0));
         glEnableVertexAttribArray(0);
 
+        // ---------------------------------------- //
+
         glGenVertexArrays(1, &cubeNormalVAO);
         glGenBuffers(1, &cubeNormalVBO);
 
@@ -57,6 +59,23 @@ public:
         glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), reinterpret_cast<void *>(3 * sizeof(float)));
         glEnableVertexAttribArray(1);
 
+        // ---------------------------------------- //
+
+        glGenVertexArrays(1, &cubeTexCoordsVAO);
+        glGenBuffers(1, &cubeTexCoordsVBO);
+
+        glBindBuffer(GL_ARRAY_BUFFER, cubeTexCoordsVBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(Shapes3D::cubeVerticesTexCoords), Shapes3D::cubeVerticesTexCoords, GL_STATIC_DRAW);
+
+        glBindVertexArray(cubeTexCoordsVAO);
+
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), reinterpret_cast<void *>(0));
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), reinterpret_cast<void *>(2 * sizeof(float)));
+        glEnableVertexAttribArray(1);
+
+        // ---------------------------------------- //
+
         glGenVertexArrays(1, &cubeFullVAO);
         glGenBuffers(1, &cubeFullVBO);
 
@@ -69,8 +88,8 @@ public:
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), reinterpret_cast<void *>(3 * sizeof(float)));
         glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), reinterpret_cast<void *>(5 * sizeof(float)));
-        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), reinterpret_cast<void *>(6 * sizeof(float)));
+        glEnableVertexAttribArray(2);
     }
 
     void drawCube(const Shader& shader, const Objects::Cube& cube, const glm::mat4& projection, const glm::mat4& view, CubeVertexDatOption type, const float angle = 0.0f, const glm::vec3 rotateAxis = {1.0f, 1.0f, 1.0f}) const {
@@ -91,6 +110,9 @@ public:
         switch (type) {
             case CUBE_VERTICES:
                 glBindVertexArray(cubeVAO);
+                break;
+            case CUBE_TEXCOORDS:
+                glBindVertexArray(cubeTexCoordsVAO);
                 break;
             case CUBE_NORMALS:
                 glBindVertexArray(cubeNormalVAO);
@@ -164,6 +186,8 @@ private:
     unsigned int cubeVAO, cubeVBO;
 
     unsigned int cubeNormalVAO, cubeNormalVBO;
+
+    unsigned int cubeTexCoordsVAO, cubeTexCoordsVBO;
 
     unsigned int cubeFullVAO, cubeFullVBO;
 };
