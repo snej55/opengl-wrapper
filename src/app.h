@@ -65,7 +65,8 @@ public:
     void drawRect(FRect rect, int r, int g, int b) const;
 
     // ---------- Objects ----------- //
-    void drawCube(const Objects::Cube& cube, const Shader& shader) const;
+    void drawCube(const Objects::Cube& cube, const Shader& shader, float angle = 0.0f, glm::vec3 rotateAxis = {1.0f, 1.0f, 1.0f}) const;
+    void drawCubeNormals(const Objects::Cube& cube, const Shader& shader, float angle = 0.0f, glm::vec3 rotateAxis = {1.0f, 1.0f, 1.0f}) const;
 
     // ---------- Textures ---------- //
     Texture* loadTexture(const char* path) const;
@@ -78,8 +79,9 @@ public:
     void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
     // view & perspective matrices getters
-    glm::mat4 getPerspectiveMatrix() const;
-    glm::mat4 getViewMatrix() const;
+    [[nodiscard]] glm::mat4 getPerspectiveMatrix() const;
+    [[nodiscard]] glm::mat4 getViewMatrix() const;
+    [[nodiscard]] glm::vec3 getCameraPosition() const;
 
 private:
     GLFWwindow* _window{nullptr};

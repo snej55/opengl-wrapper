@@ -38,6 +38,10 @@ struct Color {
     int a{255};
 };
 
+inline glm::vec3 color2vec(const Color color) {
+    return {static_cast<float>(color.r) / 255.0f, static_cast<float>(color.g) / 255.0f, static_cast<float>(color.b) / 255.0f};
+}
+
 inline float RectVertices[] = {
     1.0f,  0.0f, 0.0f,  // top right
     1.0f, -1.0f, 0.0f,  // bottom right
@@ -134,10 +138,6 @@ private:
     unsigned int rectVBO{}, rectVAO{}, rectEBO{};
 
     Shader* colorShader{nullptr};
-
-    static glm::vec3 color2vec(const Color color) {
-        return {static_cast<float>(color.r) / 255.0f, static_cast<float>(color.g) / 255.0f, static_cast<float>(color.b) / 255.0f};
-    }
 };
 
 #endif //SHAPES_H

@@ -171,10 +171,13 @@ void App::drawRect(const FRect rect, const int r, const int g, const int b) cons
     ShapeMan.drawRect(rect, {r, g, b});
 }
 
-void App::drawCube(const Objects::Cube& cube, const Shader &shader) const {
-    ObjHandlerMan.drawCube(shader, cube, getPerspectiveMatrix(), getViewMatrix());
+void App::drawCube(const Objects::Cube& cube, const Shader &shader, const float angle, const glm::vec3 rotateAxis) const {
+    ObjHandlerMan.drawCube(shader, cube, getPerspectiveMatrix(), getViewMatrix(), angle, rotateAxis);
 }
 
+void App::drawCubeNormals(const Objects::Cube& cube, const Shader &shader, const float angle, const glm::vec3 rotateAxis) const {
+    ObjHandlerMan.drawCubeNormals(shader, cube, getPerspectiveMatrix(), getViewMatrix(), angle, rotateAxis);
+}
 
 Texture* App::loadTexture(const char* path) const {
     Texture* texture {new Texture};
@@ -242,4 +245,8 @@ glm::mat4 App::getPerspectiveMatrix() const {
 
 glm::mat4 App::getViewMatrix() const {
     return CameraMan.getViewMatrix();
+}
+
+glm::vec3 App::getCameraPosition() const {
+    return CameraMan.getPosition();
 }
