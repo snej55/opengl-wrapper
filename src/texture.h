@@ -24,7 +24,7 @@ inline unsigned int TexRectIndices[] {
 
 class Texture {
 public:
-    unsigned int TEX{0};
+    unsigned int TEX;
 
     Texture() = default;
 

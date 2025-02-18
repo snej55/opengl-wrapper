@@ -99,7 +99,7 @@ void TexHandler::drawTexture(const Texture* texture, const FRect destination) co
     // model = glm::scale(model, glm::vec3(0.5f, 0.5f, 1.0f));
     // model = glm::translate(model, glm::vec3(0.5f, 0.5f, 0.0f));
 
-    texture->activate(GL_TEXTURE0);
+    texture->activate(0);
 
     texShader->use();
     texShader->setMat4("model", model);
