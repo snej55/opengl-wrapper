@@ -20,12 +20,12 @@ int main() {
     lightShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
 
     // lightShader.setVec3("material.ambient", 1.0f, 0.5f, 0.31f);
-    Texture* texture {app.loadTexture("data/images/grass.png")};
-    texture->activate(0);
+    const Texture* diffuseTex {app.loadTexture("data/images/defblade_icon.png")};
+    const Texture* specularTex {app.loadTexture("data/images/border.png")};
 
-    lightShader.setInt("material.diffuse", 0);
-    lightShader.setVec3("material.specular", 0.5f, 0.5f, 0.5f);
-    lightShader.setFloat("material.shininess", 32.0f);
+    lightShader.setInt("material.diffuse", 0); // diffuse texture
+    lightShader.setInt("material.specular", 1); // specular texture
+    lightShader.setFloat("material.shininess", 32.0f); // pow(shininess)
 
     const Shader lightCubeShader{"data/shaders/lightCube.vert", "data/shaders/lightCube.frag"};
 
@@ -39,21 +39,23 @@ int main() {
         app.clear();
 
         lightShader.use();
-        lightShader.setInt("material.diffuse", 0);
-        texture->activate(0);
+        // lightShader.setInt("material.diffuse", 0);
+        // diffuseTex->activate(0);
 
         lightShader.setVec3("viewPos", app.getCameraPosition());
 
-        app.drawCube(cube, lightShader, CUBE_FULL, static_cast<float>(glfwGetTime()), {1.0f, 0.3f, 0.5f});
-        app.drawCube(lightSourceCube, lightCubeShader);
+        diffuseTex->activate(0);
+        specularTex->activate(1);
 
-        // app.drawTexture(texture, {0.0f, 0.0f, 1.0f, 1.0f});
+        app.drawCube(cube, lightShader, CUBE_FULL);//, static_cast<float>(glfwGetTime()), {1.0f, 0.3f, 0.5f});
+        app.drawCube(lightSourceCube, lightCubeShader);
 
         app.tick();
     }
 
     // clean up
-    app.freeTexture(texture);
+    app.freeTexture(diffuseTex);
+    app.freeTexture(specularTex);
     app.close();
 
     return 0;
