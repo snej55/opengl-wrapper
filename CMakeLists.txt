@@ -15,6 +15,8 @@ if (CMAKE_SYSTEM MATCHES Windows)
 elseif (CMAKE_SYSTEM MATCHES Linux)
     message(STATUS "Target system is Linux")
     # link/include for linux x86
+    # required packages:
+    # mesa-libGL-devel mesa-libGLU-devel minizip
     include_directories(${CMAKE_SOURCE_DIR}/include/linux)
     link_directories(${CMAKE_SOURCE_DIR}/lib/linux)
     set(GL_LIBS GL GLU glfw3 assimp)
