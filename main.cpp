@@ -1,7 +1,6 @@
 #include "src/app.h"
 
 int main() {
-
     // initialization
     App app{640, 640, "OpenGL window"};
     app.setCameraEnabled(true);

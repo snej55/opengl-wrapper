@@ -32,6 +32,8 @@ set(SOURCES main.cpp
         src/objectShapes3D.h
         src/objects.h
         src/camera.h
+        src/mesh.cpp
+        src/mesh.h
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
