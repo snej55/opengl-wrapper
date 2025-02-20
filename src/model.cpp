@@ -7,8 +7,11 @@
 #include <iostream>
 #include <ostream>
 
+
 Model::Model(const std::string& path) {
+    std::cout << "loading model '" << path << "'..." << std::endl;
     loadModel(path);
+    std::cout << "loaded model '" << path << "'!" << std::endl;
 }
 
 void Model::draw(const Shader& shader) const {
@@ -32,7 +35,6 @@ void Model::loadModel(const std::string& path) {
 }
 
 void Model::processNode(const aiNode* node, const aiScene* scene) {
-
     for (unsigned int i {0}; i < node->mNumMeshes; ++i) {
         // node->mMeshes is a list of indices for scene->mMeshes
         aiMesh* mesh {scene->mMeshes[node->mMeshes[i]]};
@@ -45,8 +47,7 @@ void Model::processNode(const aiNode* node, const aiScene* scene) {
     }
 }
 
-Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene) const {
-
+Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene) {
     std::vector<MeshN::Vertex> vertices;
     std::vector<unsigned int> indices;
     std::vector<MeshN::Tex> textures;
@@ -101,8 +102,7 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene) const {
     return Mesh{vertices, indices, textures};
 }
 
-std::vector<MeshN::Tex> Model::loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName) const {
-
+std::vector<MeshN::Tex> Model::loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName) {
     std::vector<MeshN::Tex> textures;
     for (unsigned int i{0}; i < mat->GetTextureCount(type); ++i) {
         aiString str;
@@ -111,7 +111,7 @@ std::vector<MeshN::Tex> Model::loadMaterialTextures(aiMaterial *mat, aiTextureTy
         // check if we haven't already loaded this texture
         for (unsigned int j{0}; j < loadedTextures.size(); ++j) {
             // compare
-            if (std::strcmp(loadedTextures[i].path.data(), str.C_Str()) == 0) { // we found something
+            if (std::strcmp(loadedTextures[j].path.data(), str.C_Str()) == 0) { // we found something
                 // push back THAT texture instead
                 textures.push_back(loadedTextures[j]);
                 skip = true;
@@ -131,6 +131,7 @@ std::vector<MeshN::Tex> Model::loadMaterialTextures(aiMaterial *mat, aiTextureTy
             texture.id = temp.TEX;
             texture.type = typeName;
             texture.path = str.C_Str();
+            loadedTextures.push_back(texture);
             textures.push_back(texture);
         }
     }

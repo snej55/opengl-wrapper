@@ -38,6 +38,7 @@ void Texture::loadFromFile(const char* path) {
             format = GL_RGBA;
         glTexImage2D(GL_TEXTURE_2D, 0, format, _width, _height, 0, format, GL_UNSIGNED_BYTE, data);
         glGenerateMipmap(GL_TEXTURE_2D);
+        std::cout << "Successfully loaded texture at " << path << "!" << std::endl;
     } else {
         std::cout << "Failed to load texture" << std::endl;
     }

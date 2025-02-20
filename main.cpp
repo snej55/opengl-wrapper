@@ -25,12 +25,12 @@ int main() {
     lightShader.setVec3("objectColor", color2vec({182, 207, 142, 255}));
     lightShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
 
-    constexpr glm::vec3 lightPos {1.2f, 1.0f, 2.0f};
+    constexpr glm::vec3 lightPos {1.2f, 1.0f, 1.0f};
 
     lightShader.setVec3("light.position", lightPos);
 
     lightShader.setVec3("light.ambient", 0.2f, 0.2f, 0.2f);
-    lightShader.setVec3("light.diffuse", 0.5f, 0.5f, 0.5f);
+    lightShader.setVec3("light.diffuse", 1.0f, 1.0f, 1.0f);
     lightShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
 
     lightShader.setFloat("light.constant",  1.0f);
@@ -43,7 +43,7 @@ int main() {
 
     // lightShader.setInt("material.diffuse", 0); // diffuse texture
     // lightShader.setInt("material.specular", 1); // specular texture
-    lightShader.setFloat("material.shininess", 32.0f); // pow(shininess)
+    lightShader.setFloat("material.shininess", 64.0f); // pow(shininess)
 
     const Shader lightCubeShader{"data/shaders/lightCube.vert", "data/shaders/lightCube.frag"};
 
