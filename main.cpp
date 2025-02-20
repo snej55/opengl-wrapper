@@ -5,6 +5,7 @@
 int main() {
     // initialization
     App app{640, 640, "OpenGL window"};
+    app.enableDepthTesting();
     app.setCameraEnabled(true);
 
     // glm::vec3 cubePositions[] = {

@@ -57,8 +57,6 @@ bool App::init(const int width, const int height, const char* title) {
     glfwSetCursorPosCallback(_window, win_mouse_callback);
     glfwSetScrollCallback(_window, win_scroll_callback);
 
-    glEnable(GL_DEPTH_TEST);
-
     _defaultShader = new Shader{"default", "default", true};
 
     ShapeMan.init();
@@ -250,3 +248,16 @@ glm::mat4 App::getViewMatrix() const {
 glm::vec3 App::getCameraPosition() const {
     return CameraMan.getPosition();
 }
+
+void App::enableDepthTesting() const {
+    glEnable(GL_DEPTH_TEST);
+}
+
+void App::enableDebugHotKeys() {
+    _debugHotKeysEnabled = true;
+}
+
+void App::disableDebugHotKeys() {
+    _debugHotKeysEnabled = false;
+}
+

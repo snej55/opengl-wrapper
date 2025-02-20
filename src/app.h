@@ -80,6 +80,11 @@ public:
     [[nodiscard]] glm::mat4 getViewMatrix() const;
     [[nodiscard]] glm::vec3 getCameraPosition() const;
 
+    // flags
+    void enableDepthTesting() const;
+    void enableDebugHotKeys();
+    void disableDebugHotKeys();
+
 private:
     GLFWwindow* _window{nullptr};
     int _width{0};
@@ -101,7 +106,9 @@ private:
     float _camLastY{};
     bool _camFirstMouse{true};
 
+    // flags
     bool _cameraEnabled{false};
+    bool _debugHotKeysEnabled{false};
 
     // ----------------------------------------------------------- //
 
