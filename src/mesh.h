@@ -34,7 +34,7 @@ public:
     std::vector<MeshN::Tex> textures;
 
     Mesh(const std::vector<MeshN::Vertex>& verts, const std::vector<unsigned int>& indexes, const std::vector<MeshN::Tex>& texes);
-    void draw(const Shader& shader);
+    void draw(const Shader& shader) const;
 
 private:
     unsigned int VAO{}, VBO{}, EBO{};
