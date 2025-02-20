@@ -29,7 +29,14 @@ void Texture::loadFromFile(const char* path) {
     stbi_set_flip_vertically_on_load(true);
     unsigned char* data = stbi_load(path, &_width, &_height, &_nrChannels, 0);
     if (data) {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+        GLenum format = 0;
+        if (_nrChannels == 1)
+            format = GL_RED;
+        else if (_nrChannels == 3)
+            format = GL_RGB;
+        else if (_nrChannels == 4)
+            format = GL_RGBA;
+        glTexImage2D(GL_TEXTURE_2D, 0, format, _width, _height, 0, format, GL_UNSIGNED_BYTE, data);
         glGenerateMipmap(GL_TEXTURE_2D);
     } else {
         std::cout << "Failed to load texture" << std::endl;

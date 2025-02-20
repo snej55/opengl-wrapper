@@ -7,15 +7,12 @@
  * 2. Shaders ✔
  * 3. Drawing rects ✔
  * 4. Drawing textures ✔
- * 5. Better coordinate system
+ * 5. Better coordinate system & Camera ✔
  * ----------------- 3D ----------------- *
- * 6. Lighting/Objects
+ * 6. Lighting/Objects ✔
  * 7. Model loading
  * 8. Shadows
  * 9. Box collisions
- *
- * Today:
- * 3. Add getters and setters for camera class
  */
 
 #ifndef APP_H

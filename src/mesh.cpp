@@ -18,10 +18,10 @@ void Mesh::draw(const Shader& shader) const {
         glActiveTexture(GL_TEXTURE0 + i);
         std::string number;
         std::string name {textures[i].type};
-        if (name == "texture_diffuse") {
+        if (name == "diffuse") {
             // NOTE: n++ returns n then increments, ++n increments n then returns it
             number = std::to_string(diffuseNr++);
-        } else if (name == "texture_specular") {
+        } else if (name == "specular") {
             number = std::to_string(specularNr++);
         }
         shader.setInt(("material." + name + number).c_str(), i);

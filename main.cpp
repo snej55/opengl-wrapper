@@ -1,22 +1,24 @@
 #include "src/app.h"
 
+#include "src/model.h"
+
 int main() {
     // initialization
     App app{640, 640, "OpenGL window"};
     app.setCameraEnabled(true);
 
-    glm::vec3 cubePositions[] = {
-        glm::vec3( 0.0f,  0.0f,  0.0f),
-        glm::vec3( 2.0f,  5.0f, -15.0f),
-        glm::vec3(-1.5f, -2.2f, -2.5f),
-        glm::vec3(-3.8f, -2.0f, -12.3f),
-        glm::vec3( 2.4f, -0.4f, -3.5f),
-        glm::vec3(-1.7f,  3.0f, -7.5f),
-        glm::vec3( 1.3f, -2.0f, -2.5f),
-        glm::vec3( 1.5f,  2.0f, -2.5f),
-        glm::vec3( 1.5f,  0.2f, -1.5f),
-        glm::vec3(-1.3f,  1.0f, -1.5f)
-    };
+    // glm::vec3 cubePositions[] = {
+    //     glm::vec3( 0.0f,  0.0f,  0.0f),
+    //     glm::vec3( 2.0f,  5.0f, -15.0f),
+    //     glm::vec3(-1.5f, -2.2f, -2.5f),
+    //     glm::vec3(-3.8f, -2.0f, -12.3f),
+    //     glm::vec3( 2.4f, -0.4f, -3.5f),
+    //     glm::vec3(-1.7f,  3.0f, -7.5f),
+    //     glm::vec3( 1.3f, -2.0f, -2.5f),
+    //     glm::vec3( 1.5f,  2.0f, -2.5f),
+    //     glm::vec3( 1.5f,  0.2f, -1.5f),
+    //     glm::vec3(-1.3f,  1.0f, -1.5f)
+    // };
 
     const Shader lightShader{"data/shaders/lighting.vert", "data/shaders/lighting.frag"};
     lightShader.use();
@@ -36,17 +38,19 @@ int main() {
     lightShader.setFloat("light.quadratic", 0.032f);
 
     // lightShader.setVec3("material.ambient", 1.0f, 0.5f, 0.31f);
-    const Texture* diffuseTex {app.loadTexture("data/images/defblade_icon.png")};
-    const Texture* specularTex {app.loadTexture("data/images/border.png")};
+    // const Texture* diffuseTex {app.loadTexture("data/images/defblade_icon.png")};
+    // const Texture* specularTex {app.loadTexture("data/images/border.png")};
 
-    lightShader.setInt("material.diffuse", 0); // diffuse texture
-    lightShader.setInt("material.specular", 1); // specular texture
+    // lightShader.setInt("material.diffuse", 0); // diffuse texture
+    // lightShader.setInt("material.specular", 1); // specular texture
     lightShader.setFloat("material.shininess", 32.0f); // pow(shininess)
 
     const Shader lightCubeShader{"data/shaders/lightCube.vert", "data/shaders/lightCube.frag"};
 
-    Objects::Cube cube{glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f)};
+    // Objects::Cube cube{glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f)};
     constexpr Objects::Cube lightSourceCube{lightPos, glm::vec3(0.2f, 0.2f, 0.2f)};
+
+    Model myModel {"data/models/backpack.obj"};
 
     // main loop
     while (!app.shouldClose()) {
@@ -60,13 +64,27 @@ int main() {
 
         lightShader.setVec3("viewPos", app.getCameraPosition());
 
-        diffuseTex->activate(0);
-        specularTex->activate(1);
+        // draw the model
+        glm::mat4 projection {app.getPerspectiveMatrix()};
+        glm::mat4 view {app.getViewMatrix()};
 
-        for (unsigned int i{0}; i < 10; ++i) {
-            cube.position = cubePositions[i];
-            app.drawCube(cube, lightShader, CUBE_FULL, static_cast<float>(glfwGetTime()) + 10.0f * i, {1.0f, 0.3f, 0.5f});
-        }
+        lightShader.setMat4("projection", projection);
+        lightShader.setMat4("view", view);
+
+        glm::mat4 model {1.0f};
+        model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+        lightShader.setMat4("model", model);
+
+        myModel.draw(lightShader);
+
+        // diffuseTex->activate(0);
+        // specularTex->activate(1);
+        //
+        // for (unsigned int i{0}; i < 10; ++i) {
+        //     cube.position = cubePositions[i];
+        //     app.drawCube(cube, lightShader, CUBE_FULL, static_cast<float>(glfwGetTime()) + 10.0f * i, {1.0f, 0.3f, 0.5f});
+        // }
 
         app.drawCube(lightSourceCube, lightCubeShader);
 
@@ -74,8 +92,8 @@ int main() {
     }
 
     // clean up
-    app.freeTexture(diffuseTex);
-    app.freeTexture(specularTex);
+    // app.freeTexture(diffuseTex);
+    // app.freeTexture(specularTex);
     app.close();
 
     return 0;

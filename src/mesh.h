@@ -20,10 +20,11 @@ namespace MeshN {
         glm::vec2 texCoords;
     };
 
-    // different to Texture::Texture
+    // different to Texture::Texture (kinda)
     struct Tex {
         unsigned int id;
         std::string type;
+        std::string path;
     };
 }
 
