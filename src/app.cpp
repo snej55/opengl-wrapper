@@ -103,12 +103,7 @@ void App::close() {
 
 void App::clear() const {
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    if (_depthTestingEnabled) {
-        // clear depth buffer from previous frame
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    } else {
-        glClear(GL_COLOR_BUFFER_BIT);
-    }
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     _defaultShader->use();
 }
 
@@ -273,6 +268,12 @@ void App::enableDebugHotKeys() {
 void App::disableDebugHotKeys() {
     _debugHotKeysEnabled = false;
 }
+
+void App::enableStencilTesting() {
+    _stencilTestingEnabled = true;
+    glEnable(GL_STENCIL_TEST);
+}
+
 
 // Models
 Model* App::loadModel(const char* path) const {

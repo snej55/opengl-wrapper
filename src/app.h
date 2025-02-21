@@ -91,6 +91,7 @@ public:
     void enableDepthTesting();
     void enableDebugHotKeys();
     void disableDebugHotKeys();
+    void enableStencilTesting();
 
 private:
     GLFWwindow* _window{nullptr};

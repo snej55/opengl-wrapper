@@ -38,25 +38,16 @@ int main() {
     Texture* floorTex {app.loadTexture("data/images/floor.png")};
     Texture* boxTex {app.loadTexture("data/images/tomato.png")};
 
-    constexpr Objects::Cube cube1 {glm::vec3{-1.0f, 0.0f, -1.0f}, {1.0f, 1.0f, 1.0f}};
-    constexpr Objects::Cube cube2 {glm::vec3{2.0f, 0.0f, 0.0f}, glm::vec3{1.0f, 1.0f, 1.0f}};
+    Objects::Cube cube1 {glm::vec3{-1.0f, 0.0f, -1.0f}, {1.0f, 1.0f, 1.0f}};
+    Objects::Cube cube2 {glm::vec3{2.0f, 0.0f, 0.0f}, glm::vec3{1.0f, 1.0f, 1.0f}};
 
     Shader cubeShader{"data/shaders/texCube.vert", "data/shaders/texCube.frag"};
-
-    // stencil testing stuff
+    Shader outlineShader{"data/shaders/texCube.vert", "data/shaders/singleColor.frag"};
 
     // main loop
     while (!app.shouldClose()) {
         app.handleInput();
         app.clear();
-
-        boxTex->activate(0);
-
-        cubeShader.use();
-        cubeShader.setInt("tex", 0);
-
-        app.drawCube(cube1, cubeShader, CUBE_TEXCOORDS);
-        app.drawCube(cube2, cubeShader, CUBE_TEXCOORDS);
 
         floorTex->activate(0);
         cubeShader.use();
@@ -68,6 +59,15 @@ int main() {
         glBindVertexArray(planeVAO);
         glDrawArrays(GL_TRIANGLES, 0, 6);
         glBindVertexArray(0);
+
+
+        boxTex->activate(0);
+
+        cubeShader.use();
+        cubeShader.setInt("tex", 0);
+
+        app.drawCube(cube1, cubeShader, CUBE_TEXCOORDS);
+        app.drawCube(cube2, cubeShader, CUBE_TEXCOORDS);
 
         app.tick();
     }
