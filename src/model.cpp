@@ -98,6 +98,8 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene) {
     textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
     std::vector<MeshN::Tex> specularMaps {loadMaterialTextures(material, aiTextureType_SPECULAR, "specular")};
     textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+    std::vector<MeshN::Tex> normalMaps {loadMaterialTextures(material, aiTextureType_HEIGHT, "normal")};
+    textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
 
     return Mesh{vertices, indices, textures};
 }

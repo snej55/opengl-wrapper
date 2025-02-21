@@ -13,6 +13,7 @@ Mesh::Mesh(const std::vector<MeshN::Vertex>& verts, const std::vector<unsigned i
 void Mesh::draw(const Shader& shader) const {
     unsigned int diffuseNr {1};
     unsigned int specularNr {1};
+    unsigned int normalNr {1};
 
     for (unsigned int i{0}; i < textures.size(); ++i) {
         glActiveTexture(GL_TEXTURE0 + i);
@@ -20,9 +21,20 @@ void Mesh::draw(const Shader& shader) const {
         std::string name {textures[i].type};
         if (name == "diffuse") {
             // NOTE: n++ returns n then increments, ++n increments n then returns it
-            number = std::to_string(diffuseNr++);
+            if (diffuseNr > 1)
+                number = std::to_string(diffuseNr++);
+            else
+                diffuseNr++;
         } else if (name == "specular") {
-            number = std::to_string(specularNr++);
+            if (specularNr > 1)
+                number = std::to_string(specularNr++);
+            else
+                specularNr++;
+        } else if (name == "normal") {
+            if (normalNr > 1)
+                number = std::to_string(normalNr++);
+            else
+                normalNr++;
         }
         shader.setInt(("material." + name + number).c_str(), i);
         glBindTexture(GL_TEXTURE_2D, textures[i].id);

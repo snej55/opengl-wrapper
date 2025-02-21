@@ -38,54 +38,24 @@ int main() {
     lightShader.setFloat("light.linear",    0.09f);
     lightShader.setFloat("light.quadratic", 0.032f);
 
-    // lightShader.setVec3("material.ambient", 1.0f, 0.5f, 0.31f);
-    // const Texture* diffuseTex {app.loadTexture("data/images/defblade_icon.png")};
-    // const Texture* specularTex {app.loadTexture("data/images/border.png")};
-
-    // lightShader.setInt("material.diffuse", 0); // diffuse texture
-    // lightShader.setInt("material.specular", 1); // specular texture
-    lightShader.setFloat("material.shininess", 64.0f); // pow(shininess)
+    lightShader.setFloat("material.shininess", 32.0f); // pow(shininess)
 
     const Shader lightCubeShader{"data/shaders/lightCube.vert", "data/shaders/lightCube.frag"};
 
-    // Objects::Cube cube{glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f)};
     constexpr Objects::Cube lightSourceCube{lightPos, glm::vec3(0.2f, 0.2f, 0.2f)};
 
-    Model myModel {"data/models/backpack.obj"};
+    const Model* myModel{app.loadModel("data/models/backpack.obj")};
 
     // main loop
     while (!app.shouldClose()) {
         app.handleInput();
-
         app.clear();
 
         lightShader.use();
-        // lightShader.setInt("material.diffuse", 0);
-        // diffuseTex->activate(0);
 
         lightShader.setVec3("viewPos", app.getCameraPosition());
 
-        // draw the model
-        glm::mat4 projection {app.getPerspectiveMatrix()};
-        glm::mat4 view {app.getViewMatrix()};
-
-        lightShader.setMat4("projection", projection);
-        lightShader.setMat4("view", view);
-
-        glm::mat4 model {1.0f};
-        model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-        model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-        lightShader.setMat4("model", model);
-
-        myModel.draw(lightShader);
-
-        // diffuseTex->activate(0);
-        // specularTex->activate(1);
-        //
-        // for (unsigned int i{0}; i < 10; ++i) {
-        //     cube.position = cubePositions[i];
-        //     app.drawCube(cube, lightShader, CUBE_FULL, static_cast<float>(glfwGetTime()) + 10.0f * i, {1.0f, 0.3f, 0.5f});
-        // }
+        app.drawModel(myModel, lightShader, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
 
         app.drawCube(lightSourceCube, lightCubeShader);
 
@@ -95,6 +65,7 @@ int main() {
     // clean up
     // app.freeTexture(diffuseTex);
     // app.freeTexture(specularTex);
+    app.freeModel(myModel);
     app.close();
 
     return 0;
