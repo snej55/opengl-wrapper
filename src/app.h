@@ -26,6 +26,7 @@
 #include "./texture.h"
 #include "./objects.h"
 #include "./camera.h"
+#include "./model.h"
 
 class App {
 public:
@@ -70,6 +71,11 @@ public:
     void freeTexture(const Texture* texture) const;
     void drawTexture(const Texture* texture, FRect destination) const;
 
+    // ----------- Models ----------- //
+    Model* loadModel(const char* path) const;
+    void freeModel(const Model* model) const;
+    void drawModel(const Model* model, const Shader& shader, glm::vec3 pos, glm::vec3 scale) const;
+
     // window callbacks
     void mouse_callback(GLFWwindow* window, double xPosIn, double yPosIn);
     void scroll_callback(GLFWwindow* window, double xOffset, double yOffset);
@@ -79,9 +85,10 @@ public:
     [[nodiscard]] glm::mat4 getPerspectiveMatrix() const;
     [[nodiscard]] glm::mat4 getViewMatrix() const;
     [[nodiscard]] glm::vec3 getCameraPosition() const;
+    glm::mat4 getNormalMatrix(glm::mat4 modelMat) const;
 
     // flags
-    void enableDepthTesting() const;
+    void enableDepthTesting();
     void enableDebugHotKeys();
     void disableDebugHotKeys();
 
@@ -109,6 +116,7 @@ private:
     // flags
     bool _cameraEnabled{false};
     bool _debugHotKeysEnabled{false};
+    bool _depthTestingEnabled{false};
 
     // ----------------------------------------------------------- //
 

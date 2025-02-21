@@ -103,7 +103,12 @@ void App::close() {
 
 void App::clear() const {
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    if (_depthTestingEnabled) {
+        // clear depth buffer from previous frame
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    } else {
+        glClear(GL_COLOR_BUFFER_BIT);
+    }
     _defaultShader->use();
 }
 
@@ -249,7 +254,15 @@ glm::vec3 App::getCameraPosition() const {
     return CameraMan.getPosition();
 }
 
-void App::enableDepthTesting() const {
+glm::mat4 App::getNormalMatrix(glm::mat4 modelMat) const {
+    return glm::transpose(glm::inverse(modelMat));
+}
+
+
+// flags
+
+void App::enableDepthTesting() {
+    _depthTestingEnabled = true;
     glEnable(GL_DEPTH_TEST);
 }
 
@@ -261,3 +274,25 @@ void App::disableDebugHotKeys() {
     _debugHotKeysEnabled = false;
 }
 
+// Models
+Model* App::loadModel(const char* path) const {
+    Model* model{new Model{path}};
+    return model;
+}
+
+void App::freeModel(const Model* model) const {
+    std::cout << "Freed model " << model << std::endl;
+    delete model;
+}
+
+void App::drawModel(const Model* model, const Shader &shader, glm::vec3 pos, glm::vec3 scale) const {
+    glm::mat4 position{1.0f};
+    position = glm::scale(position, scale);
+    position = glm::translate(position, pos);
+    shader.use();
+    shader.setMat4("model", position);
+    shader.setMat4("view", CameraMan.getViewMatrix());
+    shader.setMat4("projection", getPerspectiveMatrix());
+    shader.setMat4("normalMat", getNormalMatrix(position));
+    model->draw(shader);
+}
