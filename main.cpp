@@ -8,64 +8,71 @@ int main() {
     app.enableDepthTesting();
     app.setCameraEnabled(true);
 
-    // glm::vec3 cubePositions[] = {
-    //     glm::vec3( 0.0f,  0.0f,  0.0f),
-    //     glm::vec3( 2.0f,  5.0f, -15.0f),
-    //     glm::vec3(-1.5f, -2.2f, -2.5f),
-    //     glm::vec3(-3.8f, -2.0f, -12.3f),
-    //     glm::vec3( 2.4f, -0.4f, -3.5f),
-    //     glm::vec3(-1.7f,  3.0f, -7.5f),
-    //     glm::vec3( 1.3f, -2.0f, -2.5f),
-    //     glm::vec3( 1.5f,  2.0f, -2.5f),
-    //     glm::vec3( 1.5f,  0.2f, -1.5f),
-    //     glm::vec3(-1.3f,  1.0f, -1.5f)
-    // };
+    float planeVertices[] = {
+        // positions          // texture Coords (note we set these higher than 1 (together with GL_REPEAT as texture wrapping mode). this will cause the floor texture to repeat)
+        5.0f, -0.5f,  5.0f,  2.0f, 0.0f,
+       -5.0f, -0.5f,  5.0f,  0.0f, 0.0f,
+       -5.0f, -0.5f, -5.0f,  0.0f, 2.0f,
 
-    const Shader lightShader{"data/shaders/lighting.vert", "data/shaders/lighting.frag"};
-    lightShader.use();
-    lightShader.setVec3("objectColor", color2vec({182, 207, 142, 255}));
-    lightShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
+        5.0f, -0.5f,  5.0f,  2.0f, 0.0f,
+       -5.0f, -0.5f, -5.0f,  0.0f, 2.0f,
+        5.0f, -0.5f, -5.0f,  2.0f, 2.0f
+    };
 
-    constexpr glm::vec3 lightPos {1.2f, 1.0f, 1.0f};
+    unsigned int planeVAO, planeVBO;
+    glGenVertexArrays(1, &planeVAO);
+    glGenBuffers(1, &planeVBO);
 
-    lightShader.setVec3("light.position", lightPos);
+    glBindVertexArray(planeVAO);
 
-    lightShader.setVec3("light.ambient", 0.2f, 0.2f, 0.2f);
-    lightShader.setVec3("light.diffuse", 1.0f, 1.0f, 1.0f);
-    lightShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
+    glBindBuffer(GL_ARRAY_BUFFER, planeVBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(planeVertices), planeVertices, GL_STATIC_DRAW);
 
-    lightShader.setFloat("light.constant",  1.0f);
-    lightShader.setFloat("light.linear",    0.09f);
-    lightShader.setFloat("light.quadratic", 0.032f);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), reinterpret_cast<void*>(0));
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), reinterpret_cast<void*>(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
 
-    lightShader.setFloat("material.shininess", 32.0f); // pow(shininess)
+    glBindVertexArray(0);
 
-    const Shader lightCubeShader{"data/shaders/lightCube.vert", "data/shaders/lightCube.frag"};
+    Texture* floorTex {app.loadTexture("data/images/floor.png")};
+    Texture* boxTex {app.loadTexture("data/images/tomato.png")};
 
-    constexpr Objects::Cube lightSourceCube{lightPos, glm::vec3(0.2f, 0.2f, 0.2f)};
+    constexpr Objects::Cube cube1 {glm::vec3{-1.0f, 0.0f, -1.0f}, {1.0f, 1.0f, 1.0f}};
+    constexpr Objects::Cube cube2 {glm::vec3{2.0f, 0.0f, 0.0f}, glm::vec3{1.0f, 1.0f, 1.0f}};
 
-    const Model* myModel{app.loadModel("data/models/backpack.obj")};
+    Shader cubeShader{"data/shaders/texCube.vert", "data/shaders/texCube.frag"};
+
+    // stencil testing stuff
 
     // main loop
     while (!app.shouldClose()) {
         app.handleInput();
         app.clear();
 
-        lightShader.use();
+        boxTex->activate(0);
 
-        lightShader.setVec3("viewPos", app.getCameraPosition());
+        cubeShader.use();
+        cubeShader.setInt("tex", 0);
 
-        app.drawModel(myModel, lightShader, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+        app.drawCube(cube1, cubeShader, CUBE_TEXCOORDS);
+        app.drawCube(cube2, cubeShader, CUBE_TEXCOORDS);
 
-        app.drawCube(lightSourceCube, lightCubeShader);
+        floorTex->activate(0);
+        cubeShader.use();
+        cubeShader.setInt("tex", 0);
+
+        cubeShader.setMat4("projection", app.getPerspectiveMatrix());
+        cubeShader.setMat4("view", app.getViewMatrix());
+        cubeShader.setMat4("model", glm::mat4(1.0f));
+        glBindVertexArray(planeVAO);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+        glBindVertexArray(0);
 
         app.tick();
     }
 
     // clean up
-    // app.freeTexture(diffuseTex);
-    // app.freeTexture(specularTex);
-    app.freeModel(myModel);
     app.close();
 
     return 0;

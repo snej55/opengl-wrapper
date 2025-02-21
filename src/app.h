@@ -117,6 +117,7 @@ private:
     bool _cameraEnabled{false};
     bool _debugHotKeysEnabled{false};
     bool _depthTestingEnabled{false};
+    bool _stencilTestingEnabled{false};
 
     // ----------------------------------------------------------- //
 
