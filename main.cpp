@@ -7,7 +7,6 @@ int main() {
     App app{640, 640, "OpenGL window"};
     app.enableDepthTesting();
     app.setCameraEnabled(true);
-    app.enableFaceCulling();
 
     float planeVertices[] = {
         // positions          // texture Coords (note we set these higher than 1 (together with GL_REPEAT as texture wrapping mode). this will cause the floor texture to repeat)

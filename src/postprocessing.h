@@ -7,7 +7,12 @@
 
 #include <glad/glad.h>
 
+// for quad vertices
+#include "objectShapes3D.h"
+#include "shader.h"
+
 #include <iostream>
+
 
 class FramebufferObject {
 public:
@@ -109,6 +114,14 @@ public:
         return FBO;
     }
 
+    unsigned int getRBO() const {
+        return RBO;
+    }
+
+    unsigned int getTex() const {
+        return _texture;
+    }
+
 private:
     unsigned int FBO;
     unsigned int RBO;
@@ -122,17 +135,68 @@ public:
     PostProcessor() = default;
 
     int init(const int width, const int height) {
+        glGenVertexArrays(1, &VAO);
+        glGenBuffers(1, &VBO);
+
+        glBindVertexArray(VAO);
+
+        glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(Shapes3D::quadVerticesTexCoords), Shapes3D::quadVerticesTexCoords, GL_STATIC_DRAW);
+
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), reinterpret_cast<void*>(0));
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), reinterpret_cast<void*>(3 * sizeof(float)));
+        glEnableVertexAttribArray(1);
+
+        glBindVertexArray(0);
+
         return fbo.init(width, height);
     }
 
-    void activate() {
+    void start() const {
+        activate();
+    }
+
+    void end() const {
+        close();
+        glDisable(GL_DEPTH_TEST);
+    }
+
+    void draw(const Shader& shader) const {
+        // clear
+        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        shader.use();
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, fbo.getTex());
+
+        shader.setInt("screenTexture", 0);
+        glBindVertexArray(VAO);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+    }
+
+    void activate() const {
         fbo.activate();
     }
 
-    void genFrameBufferObject();
+    void close() const {
+        fbo.close();
+    }
+
+    void free() const {
+        fbo.free();
+    }
+
+    unsigned int getTex() const {
+        return fbo.getTex();
+    }
 
 private:
     FramebufferObject fbo{};
+
+    unsigned int VAO, VBO;
 };
 
 #endif //POSTPROCESSING_H

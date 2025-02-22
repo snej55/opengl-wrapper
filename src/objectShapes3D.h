@@ -182,6 +182,16 @@ namespace Shapes3D {
          -0.5f,  0.5f,  0.5f,
          -0.5f,  0.5f, -0.5f,
      };
+
+     inline float quadVerticesTexCoords[] = {
+         -1.0f,  1.0f,  0.0f, 1.0f,
+         -1.0f, -1.0f,  0.0f, 0.0f,
+          1.0f, -1.0f,  1.0f, 0.0f,
+
+         -1.0f,  1.0f,  0.0f, 1.0f,
+          1.0f, -1.0f,  1.0f, 0.0f,
+          1.0f,  1.0f,  1.0f, 1.0f
+    };
 }
 
 #endif //SHAPES3D_H
