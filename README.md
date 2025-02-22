@@ -1,1 +1,1 @@
-This is the start for a simple OpenGL wrapper for 2D graphics. I will likely extend it to 3D in the future.
+This is a simple opengl wrapper, with support for rendering 2D shapes & textures, as well as 3D objects and model loading, with basic lighting.
