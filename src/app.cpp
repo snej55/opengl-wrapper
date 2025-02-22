@@ -261,6 +261,11 @@ void App::enableDepthTesting() {
     glEnable(GL_DEPTH_TEST);
 }
 
+void App::disableDepthTesting() {
+    _depthTestingEnabled = false;
+    glDisable(GL_DEPTH_TEST);
+}
+
 void App::enableDebugHotKeys() {
     _debugHotKeysEnabled = true;
 }
@@ -274,12 +279,58 @@ void App::enableStencilTesting() {
     glEnable(GL_STENCIL_TEST);
 }
 
+void App::disableStencilTesting() {
+    _stencilTestingEnabled = false;
+    glDisable(GL_STENCIL_TEST);
+}
+
 void App::enableFaceCulling() {
     _faceCullingEnabled = true;
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
 }
 
+void App::disableFaceCulling() {
+    _faceCullingEnabled = false;
+    glDisable(GL_CULL_FACE);
+}
+
+void App::enablePostProcessing() {
+    _postProcessor = new PostProcessor{};
+    if (const int success {_postProcessor->init(_width, _height)})
+        std::cout << "Failed to initialize post-processor! Error code " << success << std::endl;
+    _postProcessingEnabled = true;
+}
+
+void App::disablePostProcessing() {
+    _postProcessor->close();
+    delete _postProcessor;
+    _postProcessingEnabled = false;
+}
+
+bool App::getDebugHotKeysEnabled() const {
+    return _debugHotKeysEnabled;
+}
+
+bool App::getDepthTestingEnabled() const {
+    return _depthTestingEnabled;
+}
+
+bool App::getStencilTestingEnabled() const {
+    return _stencilTestingEnabled;
+}
+
+bool App::getFaceCullingEnabled() const {
+    return _faceCullingEnabled;
+}
+
+bool App::getPostProcessingEnabled() const {
+    return _postProcessingEnabled;
+}
+
+PostProcessor* App::getPostProcessor() const {
+    return _postProcessor;
+}
 
 
 // Models

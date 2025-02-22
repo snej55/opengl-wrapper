@@ -98,7 +98,7 @@ public:
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, tex, 0);
     }
 
-    void bindTex() {
+    void bindTex() const {
         glBindTexture(GL_TEXTURE_2D, _texture);
     }
 
@@ -170,7 +170,7 @@ public:
         shader.use();
 
         glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, fbo.getTex());
+        fbo.bindTex();
 
         shader.setInt("screenTexture", 0);
         glBindVertexArray(VAO);

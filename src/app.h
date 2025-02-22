@@ -27,6 +27,7 @@
 #include "./objects.h"
 #include "./camera.h"
 #include "./model.h"
+#include "./postprocessing.h"
 
 class App {
 public:
@@ -89,10 +90,24 @@ public:
 
     // flags
     void enableDepthTesting();
+    void disableDepthTesting();
     void enableDebugHotKeys();
     void disableDebugHotKeys();
     void enableStencilTesting();
+    void disableStencilTesting();
     void enableFaceCulling();
+    void disableFaceCulling();
+    void enablePostProcessing();
+    void disablePostProcessing();
+
+    bool getDebugHotKeysEnabled() const;
+    bool getDepthTestingEnabled() const;
+    bool getStencilTestingEnabled() const;
+    bool getFaceCullingEnabled() const;
+    bool getPostProcessingEnabled() const;
+
+    // post-processing
+    PostProcessor* getPostProcessor() const;
 
 private:
     GLFWwindow* _window{nullptr};
@@ -109,6 +124,8 @@ private:
     TexHandler TexHandlerMan{};
     ObjectHandler ObjHandlerMan{};
 
+    PostProcessor* _postProcessor{nullptr};
+
     // camera stuff
     Camera CameraMan{};
     float _camLastX{};
@@ -121,6 +138,7 @@ private:
     bool _depthTestingEnabled{false};
     bool _stencilTestingEnabled{false};
     bool _faceCullingEnabled{false};
+    bool _postProcessingEnabled{false};
 
     // ----------------------------------------------------------- //
 
