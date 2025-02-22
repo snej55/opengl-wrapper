@@ -274,6 +274,13 @@ void App::enableStencilTesting() {
     glEnable(GL_STENCIL_TEST);
 }
 
+void App::enableFaceCulling() {
+    _faceCullingEnabled = true;
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+}
+
+
 
 // Models
 Model* App::loadModel(const char* path) const {

@@ -92,6 +92,7 @@ public:
     void enableDebugHotKeys();
     void disableDebugHotKeys();
     void enableStencilTesting();
+    void enableFaceCulling();
 
 private:
     GLFWwindow* _window{nullptr};
@@ -119,6 +120,7 @@ private:
     bool _debugHotKeysEnabled{false};
     bool _depthTestingEnabled{false};
     bool _stencilTestingEnabled{false};
+    bool _faceCullingEnabled{false};
 
     // ----------------------------------------------------------- //
 

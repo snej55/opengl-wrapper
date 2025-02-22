@@ -7,6 +7,7 @@ int main() {
     App app{640, 640, "OpenGL window"};
     app.enableDepthTesting();
     app.setCameraEnabled(true);
+    app.enableFaceCulling();
 
     float planeVertices[] = {
         // positions          // texture Coords (note we set these higher than 1 (together with GL_REPEAT as texture wrapping mode). this will cause the floor texture to repeat)
@@ -42,7 +43,6 @@ int main() {
     Objects::Cube cube2 {glm::vec3{2.0f, 0.0f, 0.0f}, glm::vec3{1.0f, 1.0f, 1.0f}};
 
     Shader cubeShader{"data/shaders/texCube.vert", "data/shaders/texCube.frag"};
-    Shader outlineShader{"data/shaders/texCube.vert", "data/shaders/singleColor.frag"};
 
     // main loop
     while (!app.shouldClose()) {
