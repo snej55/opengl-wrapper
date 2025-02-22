@@ -38,6 +38,7 @@ set(SOURCES main.cpp
         src/mesh.h
         src/model.cpp
         src/model.h
+        src/postprocessing.h
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
