@@ -10,7 +10,6 @@
 #include <string>
 #include <iostream>
 
-#define STB_IMAGE_IMPLEMENTATION
 #include <STB/stb_image.h>
 
 namespace CubeMap_N {
@@ -21,6 +20,7 @@ namespace CubeMap_N {
 
         int width, height, nrChannels;
         for (unsigned int i = 0; i < faces.size(); ++i) {
+            stbi_set_flip_vertically_on_load(false);
             unsigned char* data = stbi_load(faces[i].c_str(), &width, &height, &nrChannels, 0);
             if (data) {
                 glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
