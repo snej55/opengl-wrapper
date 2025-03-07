@@ -93,6 +93,10 @@ void App::close() {
         _defaultShader->close();
         delete _defaultShader;
 
+        _postProcessor->close();
+        _postProcessor->free();
+        delete _postProcessor;
+
         ShapeMan.close();
 
         glfwDestroyWindow(_window);
@@ -304,6 +308,7 @@ void App::enablePostProcessing() {
 
 void App::disablePostProcessing() {
     _postProcessor->close();
+    _postProcessor->free();
     delete _postProcessor;
     _postProcessingEnabled = false;
 }

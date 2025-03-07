@@ -1,5 +1,5 @@
 //
-// Created by jens kromdijk on 2/6/25.
+// Created by Jens Kromdijk on 2/6/25.
 //
 
 /* TODO:
@@ -10,9 +10,10 @@
  * 5. Better coordinate system & Camera ✔
  * ----------------- 3D ----------------- *
  * 6. Lighting/Objects ✔
- * 7. Model loading
- * 8. Shadows
- * 9. Box collisions
+ * 7. Model loading ✔
+ * 8. Post processing
+ * 9. Shadows
+ * 10. Box collisions
  */
 
 #ifndef APP_H
@@ -86,7 +87,7 @@ public:
     [[nodiscard]] glm::mat4 getPerspectiveMatrix() const;
     [[nodiscard]] glm::mat4 getViewMatrix() const;
     [[nodiscard]] glm::vec3 getCameraPosition() const;
-    glm::mat4 getNormalMatrix(glm::mat4 modelMat) const;
+    [[nodiscard]] glm::mat4 getNormalMatrix(glm::mat4 modelMat) const;
 
     // flags
     void enableDepthTesting();
@@ -100,14 +101,14 @@ public:
     void enablePostProcessing();
     void disablePostProcessing();
 
-    bool getDebugHotKeysEnabled() const;
-    bool getDepthTestingEnabled() const;
-    bool getStencilTestingEnabled() const;
-    bool getFaceCullingEnabled() const;
-    bool getPostProcessingEnabled() const;
+    [[nodiscard]] bool getDebugHotKeysEnabled() const;
+    [[nodiscard]] bool getDepthTestingEnabled() const;
+    [[nodiscard]] bool getStencilTestingEnabled() const;
+    [[nodiscard]] bool getFaceCullingEnabled() const;
+    [[nodiscard]] bool getPostProcessingEnabled() const;
 
     // post-processing
-    PostProcessor* getPostProcessor() const;
+    [[nodiscard]] PostProcessor* getPostProcessor() const;
 
 private:
     GLFWwindow* _window{nullptr};

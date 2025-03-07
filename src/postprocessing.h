@@ -20,10 +20,23 @@ public:
 
     int init(const int width, const int height) {
         glGenFramebuffers(1, &FBO);
-        activate();
-
-        _width = width;
-        _height = height;
+        glBindFramebuffer(GL_FRAMEBUFFER, FBO);
+        //
+        // unsigned int textureColorBuffer;
+        // glGenTextures(1, &textureColorBuffer);
+        // glBindTexture(GL_TEXTURE_2D, textureColorBuffer);
+        // glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+        // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        // glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureColorBuffer, 0);
+        //
+        // unsigned int rbo;
+        // glGenRenderbuffers(1, &rbo);
+        // glBindRenderbuffer(GL_RENDERBUFFER, rbo);
+        // glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
+        // glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo);
+        // _width = width;
+        // _height = height;
 
         bind2NewTex();
         enableDepthStencilTesting();
@@ -53,7 +66,7 @@ public:
     int check() const {
         activate();
 
-        if (glCheckFramebufferStatus(GL_FRAMEBUFFER)) {
+        if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
             std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
             return -1;
         }
@@ -75,7 +88,7 @@ public:
         glGenTextures(1, &tex);
         glBindTexture(GL_TEXTURE_2D, tex);
 
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, width, height, 0, GL_RGBA16F, GL_UNSIGNED_BYTE, nullptr);
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -107,18 +120,18 @@ public:
         glBindRenderbuffer(GL_RENDERBUFFER, RBO);
         glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, _width, _height);
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, RBO);
-        glBindRenderbuffer(GL_RENDERBUFFER, 0);
+        // glBindRenderbuffer(GL_RENDERBUFFER, 0);
     }
 
-    unsigned int getFBO() const {
+    [[nodiscard]] unsigned int getFBO() const {
         return FBO;
     }
 
-    unsigned int getRBO() const {
+    [[nodiscard]] unsigned int getRBO() const {
         return RBO;
     }
 
-    unsigned int getTex() const {
+    [[nodiscard]] unsigned int getTex() const {
         return _texture;
     }
 
@@ -127,7 +140,7 @@ private:
     unsigned int RBO;
     unsigned int _texture{0};
 
-    int _width, _height;
+    int _width{0}, _height{0};
 };
 
 class PostProcessor {
@@ -189,7 +202,7 @@ public:
         fbo.free();
     }
 
-    unsigned int getTex() const {
+    [[nodiscard]] unsigned int getTex() const {
         return fbo.getTex();
     }
 
