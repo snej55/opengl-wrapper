@@ -39,6 +39,7 @@ set(SOURCES main.cpp
         src/model.cpp
         src/model.h
         src/postprocessing.h
+        src/cubemap.h
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})

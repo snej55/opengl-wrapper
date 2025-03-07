@@ -1,6 +1,7 @@
 #include "src/app.h"
 
 #include "src/model.h"
+#include "src/cubemap.h"
 
 int main() {
     // initialization
@@ -43,9 +44,16 @@ int main() {
 
     Shader cubeShader{"data/shaders/texCube.vert", "data/shaders/texCube.frag"};
 
-    Shader screenShader{"data/shaders/screenShader.vert", "data/shaders/screenShader.frag"};
+    std::vector<std::string> faces = {
+        "data/images/skybox/right.jpg",
+        "data/images/skybox/left.jpg",
+        "data/images/skybox/top.jpg",
+        "data/images/skybox/bottom.jpg",
+        "data/images/skybox/front.jpg",
+        "data/images/skybox/back.jpg"
+    };
 
-
+    unsigned int skyboxTex {CubeMap_N::loadCubeMap(faces)};
 
     // main loop
     while (!app.shouldClose()) {
