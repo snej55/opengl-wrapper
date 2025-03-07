@@ -93,8 +93,10 @@ void App::close() {
         _defaultShader->close();
         delete _defaultShader;
 
-        _postProcessor->close();
-        _postProcessor->free();
+        if (_postProcessor != nullptr) {
+            _postProcessor->close();
+            _postProcessor->free();
+        }
         delete _postProcessor;
 
         ShapeMan.close();
