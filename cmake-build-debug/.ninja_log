@@ -1,22 +1,15 @@
-# ninja log v5
-1033	6712	7618318101953953	CMakeFiles/main.dir/src/model.cpp.obj	24e711f223367c82
-5917	6145	1739539350124717662	main	9878072118bf1cd9
-924	5564	7619513511065757	CMakeFiles/main.dir/src/app.cpp.obj	e8f7051f4d2677c1
-37	1798	0	CMakeFiles/copy_assets	34ed71cd5117cc7a
-3319	6353	7617707161116426	CMakeFiles/main.dir/src/shader.cpp.obj	850c39c206201d7
-37	1798	0	C:/Users/AnkenWannePC/CLionProjects/opengl-wrapper/cmake-build-debug/CMakeFiles/copy_assets	34ed71cd5117cc7a
-1799	11735	7631562449206961	CMakeFiles/main.dir/main.cpp.obj	8be243f428aa57f
-768	3722	7617707134813637	CMakeFiles/main.dir/src/extern/glad.c.obj	5435eca845685592
-543	5389	7617748529296127	CMakeFiles/main.dir/src/texture.cpp.obj	18b99597ece66701
-487	3292	7618334874637313	CMakeFiles/main.dir/src/mesh.cpp.obj	f6ff03068aaf119a
-11736	13102	7631562462234228	main.exe	f8278fc3ffec0706
-40	1008	0	CMakeFiles/copy_assets	34ed71cd5117cc7a
-40	1008	0	C:/Users/AnkenWannePC/CLionProjects/opengl-wrapper/cmake-build-debug/CMakeFiles/copy_assets	34ed71cd5117cc7a
-1046	5539	7631563812929038	CMakeFiles/main.dir/src/extern/glad.c.obj	5435eca845685592
-1009	7961	7631563837600234	CMakeFiles/main.dir/main.cpp.obj	8be243f428aa57f
-1014	8948	7631563845565380	CMakeFiles/main.dir/src/app.cpp.obj	e8f7051f4d2677c1
-5541	11506	7631563872626422	CMakeFiles/main.dir/src/shader.cpp.obj	850c39c206201d7
-8949	14508	7631563902758568	CMakeFiles/main.dir/src/mesh.cpp.obj	f6ff03068aaf119a
-7961	15731	7631563915295744	CMakeFiles/main.dir/src/texture.cpp.obj	18b99597ece66701
-11507	18610	7631563944097079	CMakeFiles/main.dir/src/model.cpp.obj	24e711f223367c82
-18610	19477	7631563952652773	main.exe	f8278fc3ffec0706
+# ninja log v6
+7	150	7631575790618809	CMakeFiles/copy_assets	fa7378797d69e762
+7	150	7631575790618809	C:/Users/jensk/CLionProjects/opengl-wrapper/cmake-build-debug/CMakeFiles/copy_assets	fa7378797d69e762
+150	556	7631575792050893	CMakeFiles/main.dir/main.cpp.obj	ed83ebbdba8c9af0
+166	969	7631575792203226	CMakeFiles/main.dir/src/mesh.cpp.obj	17d99b48431e9ddf
+160	1027	7631575792139346	CMakeFiles/main.dir/src/shader.cpp.obj	832a96c6e5b94607
+154	1273	7631575792085447	CMakeFiles/main.dir/src/app.cpp.obj	cc98c0bd50d50756
+169	1306	7631575792244490	CMakeFiles/main.dir/src/model.cpp.obj	23c797c60f2f732d
+163	1355	7631575792178377	CMakeFiles/main.dir/src/texture.cpp.obj	3db458362294a448
+157	3298	7631575792118027	CMakeFiles/main.dir/src/extern/glad.c.obj	3e425c400706167c
+3298	3564	7631575823537196	main.exe	1dbbde10969cc7cc
+6	144	7631575982658416	CMakeFiles/copy_assets	fa7378797d69e762
+6	144	7631575982658416	C:/Users/jensk/CLionProjects/opengl-wrapper/cmake-build-debug/CMakeFiles/copy_assets	fa7378797d69e762
+144	1058	7631575984038179	CMakeFiles/main.dir/main.cpp.obj	ed83ebbdba8c9af0
+1059	1279	7631575993175199	main.exe	1dbbde10969cc7cc
