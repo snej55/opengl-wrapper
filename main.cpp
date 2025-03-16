@@ -1,7 +1,7 @@
 #include "src/app.h"
 
 #include "src/model.h"
-#include "src/cubemap.h"
+#include "src/skybox.h"
 
 int main() {
     // initialization
@@ -53,23 +53,9 @@ int main() {
         "data/images/skybox/back.jpg"
     };
 
-    unsigned int skyboxTex {CubeMap_N::loadCubeMap(faces)};
-    Shader skyboxShader {"data/shaders/skybox.vert", "data/shaders/skybox.frag"};
-
     // handle skybox
-    unsigned int skyboxVAO, skyboxVBO;
-    glGenVertexArrays(1, &skyboxVAO);
-    glGenBuffers(1, &skyboxVBO);
-
-    glBindVertexArray(skyboxVAO);
-
-    glBindBuffer(GL_ARRAY_BUFFER, skyboxVBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(Shapes3D::skyboxVertices), Shapes3D::skyboxVertices, GL_STATIC_DRAW);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), reinterpret_cast<void*>(0));
-    glEnableVertexAttribArray(0);
-
-    glBindVertexArray(0);
+    Skybox skybox {"data/images/skybox"};
+    Shader skyboxShader {"data/shaders/skybox.vert", "data/shaders/skybox.frag"};
 
     // main loop
     while (!app.shouldClose()) {
@@ -97,17 +83,7 @@ int main() {
         app.drawCube(cube2, cubeShader, CUBE_TEXCOORDS);
 
         // render skybox
-        glDepthFunc(GL_LEQUAL);
-        skyboxShader.use();
-
-        glm::mat4 projection {app.getPerspectiveMatrix()};
-        glm::mat4 view {glm::mat4(glm::mat3(app.getViewMatrix()))}; // cut off translation section of matrix
-        skyboxShader.setMat4("projection", projection);
-        skyboxShader.setMat4("view", view);
-        glBindVertexArray(skyboxVAO);
-        glBindTexture(GL_TEXTURE_CUBE_MAP, skyboxTex);
-        glDrawArrays(GL_TRIANGLES, 0, 36);
-        glDepthFunc(GL_LESS);
+        skybox.render(skyboxShader, app.getViewMatrix(), app.getPerspectiveMatrix());
 
         app.tick();
     }
