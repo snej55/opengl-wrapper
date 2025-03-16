@@ -1,0 +1,21 @@
+{
+	"bmi-installation" : null,
+	"compiler-frontend-variant" : "GNU",
+	"compiler-id" : "GNU",
+	"compiler-simulate-id" : "",
+	"config" : "Debug",
+	"cxx-modules" : {},
+	"dir-cur-bld" : "/home/jenskromdijk/CLionProjects/opengl-wrapper/cmake-build-debug",
+	"dir-cur-src" : "/home/jenskromdijk/CLionProjects/opengl-wrapper",
+	"dir-top-bld" : "/home/jenskromdijk/CLionProjects/opengl-wrapper/cmake-build-debug",
+	"dir-top-src" : "/home/jenskromdijk/CLionProjects/opengl-wrapper",
+	"exports" : [],
+	"forward-modules-from-target-dirs" : [],
+	"include-dirs" : 
+	[
+		"/home/jenskromdijk/CLionProjects/opengl-wrapper/include/linux"
+	],
+	"language" : "CXX",
+	"linked-target-dirs" : [],
+	"module-dir" : "/home/jenskromdijk/CLionProjects/opengl-wrapper/cmake-build-debug/CMakeFiles/main.dir"
+}
