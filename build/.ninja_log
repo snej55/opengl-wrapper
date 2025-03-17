@@ -1,0 +1,25 @@
+# ninja log v6
+2	115	1742150936829690963	CMakeFiles/copy_assets	5e38b212546c5e72
+2	115	1742150936829690963	/home/jenskromdijk/CLionProjects/opengl-wrapper/build/CMakeFiles/copy_assets	5e38b212546c5e72
+117	244	1742150936945694635	CMakeFiles/main.dir/src/extern/glad.c.o	b509a2de589639d4
+116	286	1742150936945003228	CMakeFiles/main.dir/src/mesh.cpp.o.ddi	dd286be3e2fca6ac
+116	314	1742150936944451024	CMakeFiles/main.dir/src/shader.cpp.o.ddi	3b3ccb56f988e3ea
+116	321	1742150936944709813	CMakeFiles/main.dir/src/texture.cpp.o.ddi	cb33329cb7ea8606
+117	355	1742150936945366805	CMakeFiles/main.dir/src/model.cpp.o.ddi	3486dd901c94ea3b
+115	373	1742150936944162819	CMakeFiles/main.dir/src/app.cpp.o.ddi	4b07ef44feead4c0
+115	387	1742150936943750159	CMakeFiles/main.dir/main.cpp.o.ddi	3e1dd5c588b54155
+387	403	1742150937230300117	CMakeFiles/main.dir/CXX.dd	d4e1bc9a60719752
+387	403	1742150937230300117	/home/jenskromdijk/CLionProjects/opengl-wrapper/build/CMakeFiles/main.dir/CXXModules.json	d4e1bc9a60719752
+387	403	1742150937230300117	CMakeFiles/main.dir/main.cpp.o.modmap	d4e1bc9a60719752
+387	403	1742150937230300117	CMakeFiles/main.dir/src/app.cpp.o.modmap	d4e1bc9a60719752
+387	403	1742150937230300117	CMakeFiles/main.dir/src/shader.cpp.o.modmap	d4e1bc9a60719752
+387	403	1742150937230300117	CMakeFiles/main.dir/src/texture.cpp.o.modmap	d4e1bc9a60719752
+387	403	1742150937230300117	CMakeFiles/main.dir/src/mesh.cpp.o.modmap	d4e1bc9a60719752
+387	403	1742150937230300117	CMakeFiles/main.dir/src/model.cpp.o.modmap	d4e1bc9a60719752
+405	1431	1742150937233373698	CMakeFiles/main.dir/src/mesh.cpp.o	59543938f3f1cdd6
+404	1451	1742150937232669366	CMakeFiles/main.dir/src/shader.cpp.o	d9c9638ff52ef115
+403	1785	1742150937230695284	CMakeFiles/main.dir/main.cpp.o	e0bfa01fae9940c4
+403	1853	1742150937232277836	CMakeFiles/main.dir/src/app.cpp.o	7c2ea85aad6ea38f
+404	1859	1742150937233020209	CMakeFiles/main.dir/src/texture.cpp.o	4e1483780b3c867d
+405	1876	1742150937233728919	CMakeFiles/main.dir/src/model.cpp.o	173dc771b2abece
+1876	1983	1742150938703711141	main	f6996c45e9ba91ed

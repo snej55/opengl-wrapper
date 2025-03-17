@@ -43,7 +43,10 @@ public:
         glBindVertexArray(0);
     }
 
-    void render(const Shader& shader, const glm::mat4 &view, const glm::mat4 &proj) const {
+    void render(const Shader& shader, glm::mat4 view, const glm::mat4 &proj) const {
+        // truncate translation so skybox never moves
+        view = glm::mat4(glm::mat3(view));
+
         glDepthFunc(GL_LEQUAL);
         shader.use();
 
