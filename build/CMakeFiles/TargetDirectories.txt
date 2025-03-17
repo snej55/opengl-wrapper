@@ -1,4 +1,0 @@
-/home/jenskromdijk/CLionProjects/opengl-wrapper/build/CMakeFiles/main.dir
-/home/jenskromdijk/CLionProjects/opengl-wrapper/build/CMakeFiles/copy_assets.dir
-/home/jenskromdijk/CLionProjects/opengl-wrapper/build/CMakeFiles/edit_cache.dir
-/home/jenskromdijk/CLionProjects/opengl-wrapper/build/CMakeFiles/rebuild_cache.dir
