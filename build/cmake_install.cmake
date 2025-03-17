@@ -1,4 +1,8 @@
+<<<<<<< HEAD:cmake-build-debug/cmake_install.cmake
+# Install script for directory: C:/Users/jensk/CLionProjects/opengl-wrapper
+=======
 # Install script for directory: /home/jenskromdijk/CLionProjects/opengl-wrapper
+>>>>>>> master:build/cmake_install.cmake
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -39,7 +43,11 @@ endif()
 
 # Set path to fallback-tool for dependency-resolution.
 if(NOT DEFINED CMAKE_OBJDUMP)
+<<<<<<< HEAD:cmake-build-debug/cmake_install.cmake
+  set(CMAKE_OBJDUMP "C:/Program Files/JetBrains/CLion 2024.3.4/bin/mingw/bin/objdump.exe")
+=======
   set(CMAKE_OBJDUMP "/usr/bin/objdump")
+>>>>>>> master:build/cmake_install.cmake
 endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
@@ -61,6 +69,12 @@ else()
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+<<<<<<< HEAD:cmake-build-debug/cmake_install.cmake
+  string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
+       "${CMAKE_INSTALL_MANIFEST_FILES}")
+  file(WRITE "C:/Users/jensk/CLionProjects/opengl-wrapper/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+=======
   file(WRITE "/home/jenskromdijk/CLionProjects/opengl-wrapper/build/${CMAKE_INSTALL_MANIFEST}"
+>>>>>>> master:build/cmake_install.cmake
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()
