@@ -2,7 +2,7 @@
 This is a simple opengl wrapper, with support for rendering 2D shapes & textures, as well as 3D objects and model loading, with basic lighting.
 
 ## Build instructions
-The project is currently setup with a heightmap example. To build it, use CMake and ninja-build (or a different generator):
+To build it, use CMake and ninja-build (or a different generator):
 
 ```
 # clone repo
