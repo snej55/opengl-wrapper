@@ -189,6 +189,7 @@ void Shader::addGeometryShader(const char* geometryPath) const
     }
 
     glAttachShader(ID, gShader);
+    glLinkProgram(ID);
     glDeleteShader(gShader);
 }
 
