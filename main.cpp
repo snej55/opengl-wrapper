@@ -1,3 +1,10 @@
+// #include <iostream>
+//
+// int main() {
+//     std::cout << "Hello World!\n";
+//     return 0;
+// }
+
 #include "src/app.h"
 
 #include "src/model.h"
