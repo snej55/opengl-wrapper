@@ -36,6 +36,9 @@ public:
 
     Shader(bool source, const char *vert_shader_source, const char *frag_shader_source);
 
+    // optional geometry shader
+    void addGeometryShader(const char* geometryPath) const;
+
     // activate
     void use() const;
 

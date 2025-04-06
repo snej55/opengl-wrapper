@@ -150,6 +150,49 @@ Shader::Shader(bool source, const char *vert_shader_source, const char *frag_sha
     glDeleteShader(fragment);
 }
 
+void Shader::addGeometryShader(const char* geometryPath) const
+{
+    std::string geometryCode{};
+    std::ifstream gShaderFile;
+
+    gShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+    try
+    {
+        gShaderFile.open(geometryPath);
+        std::stringstream gShaderString;
+        // read from the buffer
+        gShaderString << gShaderFile.rdbuf();
+
+        gShaderFile.close();
+
+        geometryCode = gShaderString.str();
+    } catch ([[maybe_unused]] const std::ifstream::failure& e)
+    {
+        std::cout << "ERROR::SHADER::FILE_NOT_SUCCESSFULLY_READ" << std::endl;
+    }
+
+    const char* gShaderCode = geometryCode.c_str();
+
+    // compile the shader
+    unsigned int gShader;
+    int success;
+    char infoLog[512]; // for any errors
+
+    gShader = glCreateShader(GL_GEOMETRY_SHADER);
+    glShaderSource(gShader, 1, &gShaderCode, nullptr);
+    glCompileShader(gShader);
+    glGetShaderiv(gShader, GL_COMPILE_STATUS, &success);
+    if (!success)
+    {
+        glGetShaderInfoLog(gShader, 512, nullptr, infoLog);
+        std::cout << "ERROR::SHADER::GEOMETRY::COMPILATION_FAILED\n" << infoLog << std::endl;
+    }
+
+    glAttachShader(ID, gShader);
+    glDeleteShader(gShader);
+}
+
+
 void Shader::use() const
 {
     glUseProgram(ID);
