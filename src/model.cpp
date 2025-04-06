@@ -8,24 +8,33 @@
 #include <ostream>
 
 
-Model::Model(const std::string& path) {
+Model::Model(const std::string &path)
+{
     std::cout << "loading model '" << path << "'..." << std::endl;
     loadModel(path);
     std::cout << "loaded model '" << path << "'!" << std::endl;
 }
 
-void Model::draw(const Shader& shader) const {
-    for (unsigned int i{0}; i < meshes.size(); ++i) {
+void Model::draw(const Shader &shader) const
+{
+    for (unsigned int i{0}; i < meshes.size(); ++i)
+    {
         meshes[i].draw(shader);
     }
 }
 
-void Model::loadModel(const std::string& path) {
+void Model::loadModel(const std::string &path)
+{
     Assimp::Importer importer;
 
-    const aiScene* scene {importer.ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_CalcTangentSpace)};
+    const aiScene *scene{
+        importer.ReadFile(
+            path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_CalcTangentSpace)
+    };
     // error handling
-    if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) { // if it isn't zero
+    if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
+    {
+        // if it isn't zero
         std::cout << "ERROR::ASSIMP::" << importer.GetErrorString() << std::endl;
         return;
     }
@@ -34,25 +43,30 @@ void Model::loadModel(const std::string& path) {
     processNode(scene->mRootNode, scene);
 }
 
-void Model::processNode(const aiNode* node, const aiScene* scene) {
-    for (unsigned int i {0}; i < node->mNumMeshes; ++i) {
+void Model::processNode(const aiNode *node, const aiScene *scene)
+{
+    for (unsigned int i{0}; i < node->mNumMeshes; ++i)
+    {
         // node->mMeshes is a list of indices for scene->mMeshes
-        aiMesh* mesh {scene->mMeshes[node->mMeshes[i]]};
+        aiMesh *mesh{scene->mMeshes[node->mMeshes[i]]};
 
         meshes.push_back(processMesh(mesh, scene));
     }
     // repeat recursively for all children
-    for (unsigned int i{0}; i < node->mNumChildren; ++i) {
+    for (unsigned int i{0}; i < node->mNumChildren; ++i)
+    {
         processNode(node->mChildren[i], scene);
     }
 }
 
-Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene) {
+Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene)
+{
     std::vector<MeshN::Vertex> vertices;
     std::vector<unsigned int> indices;
     std::vector<MeshN::Tex> textures;
 
-    for (unsigned int i{0}; i < mesh->mNumVertices; ++i) {
+    for (unsigned int i{0}; i < mesh->mNumVertices; ++i)
+    {
         MeshN::Vertex vertex;
         // process vertex
         // retrieve vertex positions
@@ -69,51 +83,60 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene) {
         vertex.normal = vNormal;
         // texture coordinates if mesh has them
         // first check if it actually has texture coordinates
-        if (mesh->mTextureCoords[0]) {
+        if (mesh->mTextureCoords[0])
+        {
             glm::vec2 vTexCoords;
             // assimp allows up to 8 tex coords, but we only care about the first set
             vTexCoords.x = mesh->mTextureCoords[0][i].x;
             vTexCoords.y = mesh->mTextureCoords[0][i].y;
             vertex.texCoords = vTexCoords;
-        } else {
+        } else
+        {
             vertex.texCoords = glm::vec2(0.0f, 0.0f);
         }
         vertices.push_back(vertex);
     }
 
     // indices
-    for (unsigned int i{0}; i < mesh->mNumFaces; ++i) {
-        aiFace face {mesh->mFaces[i]};
+    for (unsigned int i{0}; i < mesh->mNumFaces; ++i)
+    {
+        aiFace face{mesh->mFaces[i]};
         // each face usually has like 3 indices or something
-        for (unsigned int j {0}; j < face.mNumIndices; ++j) {
+        for (unsigned int j{0}; j < face.mNumIndices; ++j)
+        {
             indices.push_back(face.mIndices[j]);
         }
     }
 
     // materials
-    aiMaterial* material {scene->mMaterials[mesh->mMaterialIndex]};
+    aiMaterial *material{scene->mMaterials[mesh->mMaterialIndex]};
 
     // in the shaders we'll call the diffuse and specular textures "diffuse" and "specular" respectively
-    std::vector<MeshN::Tex> diffuseMaps {loadMaterialTextures(material, aiTextureType_DIFFUSE, "diffuse")};
+    std::vector<MeshN::Tex> diffuseMaps{loadMaterialTextures(material, aiTextureType_DIFFUSE, "diffuse")};
     textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
-    std::vector<MeshN::Tex> specularMaps {loadMaterialTextures(material, aiTextureType_SPECULAR, "specular")};
+    std::vector<MeshN::Tex> specularMaps{loadMaterialTextures(material, aiTextureType_SPECULAR, "specular")};
     textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
-    std::vector<MeshN::Tex> normalMaps {loadMaterialTextures(material, aiTextureType_HEIGHT, "normal")};
+    std::vector<MeshN::Tex> normalMaps{loadMaterialTextures(material, aiTextureType_HEIGHT, "normal")};
     textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
 
     return Mesh{vertices, indices, textures};
 }
 
-std::vector<MeshN::Tex> Model::loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName) {
+std::vector<MeshN::Tex> Model::loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName)
+{
     std::vector<MeshN::Tex> textures;
-    for (unsigned int i{0}; i < mat->GetTextureCount(type); ++i) {
+    for (unsigned int i{0}; i < mat->GetTextureCount(type); ++i)
+    {
         aiString str;
         mat->GetTexture(type, i, &str);
         bool skip{false};
         // check if we haven't already loaded this texture
-        for (unsigned int j{0}; j < loadedTextures.size(); ++j) {
+        for (unsigned int j{0}; j < loadedTextures.size(); ++j)
+        {
             // compare
-            if (std::strcmp(loadedTextures[j].path.data(), str.C_Str()) == 0) { // we found something
+            if (std::strcmp(loadedTextures[j].path.data(), str.C_Str()) == 0)
+            {
+                // we found something
                 // push back THAT texture instead
                 textures.push_back(loadedTextures[j]);
                 skip = true;
@@ -122,9 +145,10 @@ std::vector<MeshN::Tex> Model::loadMaterialTextures(aiMaterial *mat, aiTextureTy
         }
 
         // if we didn't find any matches
-        if (!skip) {
+        if (!skip)
+        {
             // some string manip witchcraft
-            std::string filename {str.C_Str()};
+            std::string filename{str.C_Str()};
             filename = directory + '/' + filename;
             // temporary *other* texture to loadFromFile (called in constructor)
             const Texture temp{filename.c_str()};

@@ -14,25 +14,30 @@
 #include "shader.h"
 #include "objectShapes3D.h"
 
-enum CubeVertexDatOption {
+enum CubeVertexDatOption
+{
     CUBE_VERTICES,
     CUBE_TEXCOORDS,
     CUBE_NORMALS,
     CUBE_FULL,
 };
 
-namespace Objects {
-    struct Cube {
+namespace Objects
+{
+    struct Cube
+    {
         glm::vec3 position;
         glm::vec3 scale;
     };
 };
 
-class ObjectHandler {
+class ObjectHandler
+{
 public:
     ObjectHandler() = default;
 
-    void init() {
+    void init()
+    {
         glGenVertexArrays(1, &cubeVAO);
         glGenBuffers(1, &cubeVBO);
 
@@ -50,7 +55,8 @@ public:
         glGenBuffers(1, &cubeNormalVBO);
 
         glBindBuffer(GL_ARRAY_BUFFER, cubeNormalVBO);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(Shapes3D::cubeVerticesNormals), Shapes3D::cubeVerticesNormals, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(Shapes3D::cubeVerticesNormals), Shapes3D::cubeVerticesNormals,
+                     GL_STATIC_DRAW);
 
         glBindVertexArray(cubeNormalVAO);
 
@@ -65,7 +71,8 @@ public:
         glGenBuffers(1, &cubeTexCoordsVBO);
 
         glBindBuffer(GL_ARRAY_BUFFER, cubeTexCoordsVBO);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(Shapes3D::cubeVerticesTexCoords), Shapes3D::cubeVerticesTexCoords, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(Shapes3D::cubeVerticesTexCoords), Shapes3D::cubeVerticesTexCoords,
+                     GL_STATIC_DRAW);
 
         glBindVertexArray(cubeTexCoordsVAO);
 
@@ -80,7 +87,8 @@ public:
         glGenBuffers(1, &cubeFullVBO);
 
         glBindBuffer(GL_ARRAY_BUFFER, cubeFullVBO);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(Shapes3D::cubeVerticesExtended), Shapes3D::cubeVerticesExtended, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(Shapes3D::cubeVerticesExtended), Shapes3D::cubeVerticesExtended,
+                     GL_STATIC_DRAW);
 
         glBindVertexArray(cubeFullVAO);
 
@@ -92,22 +100,26 @@ public:
         glEnableVertexAttribArray(2);
     }
 
-    void drawCube(const Shader& shader, const Objects::Cube& cube, const glm::mat4& projection, const glm::mat4& view, CubeVertexDatOption type, const float angle = 0.0f, const glm::vec3 rotateAxis = {1.0f, 1.0f, 1.0f}) const {
+    void drawCube(const Shader &shader, const Objects::Cube &cube, const glm::mat4 &projection, const glm::mat4 &view,
+                  CubeVertexDatOption type, const float angle = 0.0f,
+                  const glm::vec3 rotateAxis = {1.0f, 1.0f, 1.0f}) const
+    {
         shader.use();
         shader.setMat4("projection", projection);
         shader.setMat4("view", view);
 
-        glm::mat4 model {1.0f};
+        glm::mat4 model{1.0f};
         model = glm::translate(model, cube.position);
         model = glm::rotate(model, angle, rotateAxis);
         model = glm::scale(model, cube.scale);
 
         shader.setMat4("model", model);
 
-        const glm::mat3 normalMat {glm::transpose(glm::inverse(model))};
+        const glm::mat3 normalMat{glm::transpose(glm::inverse(model))};
         shader.setMat3("normalMat", normalMat);
 
-        switch (type) {
+        switch (type)
+        {
             case CUBE_VERTICES:
                 glBindVertexArray(cubeVAO);
                 break;
@@ -127,6 +139,7 @@ public:
 
         glDrawArrays(GL_TRIANGLES, 0, 36);
     }
+
     /*
     void drawCube(const Shader& shader, const Objects::Cube& cube, const glm::mat4& projection, const glm::mat4& view, const float angle = 0.0f, const glm::vec3 rotateAxis = {1.0f, 1.0f, 1.0f}) const {
         shader.use();

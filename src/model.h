@@ -17,11 +17,12 @@
 #include <vector>
 #include <iostream>
 
-class Model {
+class Model
+{
 public:
-    Model(const std::string& path);
+    explicit Model(const std::string &path);
 
-    void draw(const Shader& shader) const;
+    void draw(const Shader &shader) const;
 
 private:
     std::vector<Mesh> meshes;
@@ -30,11 +31,13 @@ private:
     std::vector<MeshN::Tex> loadedTextures; // prevent from loading the same texture twice
 
     void loadModel(const std::string &path);
-    void processNode(const aiNode* node, const aiScene* scene);
-    Mesh processMesh(aiMesh* mesh, const aiScene* scene);
-    std::vector<MeshN::Tex> loadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName);
-};
 
+    void processNode(const aiNode *node, const aiScene *scene);
+
+    Mesh processMesh(aiMesh *mesh, const aiScene *scene);
+
+    std::vector<MeshN::Tex> loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName);
+};
 
 
 #endif //MODEL_H

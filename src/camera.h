@@ -9,8 +9,10 @@
 #include <glm/glm.hpp>
 #include <glm/ext/matrix_transform.hpp>
 
-namespace CameraN {
-    enum class CameraMotion {
+namespace CameraN
+{
+    enum class CameraMotion
+    {
         FORWARD,
         BACKWARD,
         LEFT,
@@ -18,16 +20,18 @@ namespace CameraN {
     };
 
     // defaults
-    constexpr float YAW {-90.0f};
-    constexpr float PITCH {0.0f};
-    constexpr float SPEED {2.5f};
-    constexpr float SENSITIVITY {0.1f};
-    constexpr float ZOOM {45.0f};
+    constexpr float YAW{-90.0f};
+    constexpr float PITCH{0.0f};
+    constexpr float SPEED{25.f};
+    constexpr float SENSITIVITY{0.1f};
+    constexpr float ZOOM{45.0f};
 }
 
-class Camera {
+class Camera
+{
 public:
-    Camera() {
+    Camera()
+    {
         _position = glm::vec3(0.0f, 0.0f, 3.0f);
         _front = glm::vec3(0.0f, 0.0f, -1.0f);
         _up = glm::vec3(0.0f, 1.0f, 0.0f);
@@ -40,13 +44,16 @@ public:
         updateCameraVectors();
     }
 
-    [[nodiscard]] glm::mat4 getViewMatrix() const {
+    [[nodiscard]] glm::mat4 getViewMatrix() const
+    {
         return glm::lookAt(_position, _position + _front, _up);
     }
 
-    void processInput(const CameraN::CameraMotion direction, const float deltaTime) {
-        const float velocity {_movementSpeed * deltaTime};
-        switch (direction) {
+    void processInput(const CameraN::CameraMotion direction, const float deltaTime)
+    {
+        const float velocity{_movementSpeed * deltaTime};
+        switch (direction)
+        {
             case (CameraN::CameraMotion::FORWARD):
                 _position += _front * velocity;
                 return;
@@ -62,7 +69,8 @@ public:
         }
     }
 
-    void processMouseMovement(float xOffset, float yOffset, const GLboolean constrainPitch = true) {
+    void processMouseMovement(float xOffset, float yOffset, const GLboolean constrainPitch = true)
+    {
         xOffset *= _mouseSensitivity;
         yOffset *= _mouseSensitivity;
 
@@ -70,11 +78,14 @@ public:
         _pitch += yOffset;
 
         // cap pitch
-        if (constrainPitch) {
-            if (_pitch > 89.0f) {
+        if (constrainPitch)
+        {
+            if (_pitch > 89.0f)
+            {
                 _pitch = 89.0f;
             }
-            if (_pitch < -89.0f) {
+            if (_pitch < -89.0f)
+            {
                 _pitch = -89.0f;
             }
         }
@@ -83,53 +94,66 @@ public:
         updateCameraVectors();
     }
 
-    void processMouseScroll(const float yOffset) {
+    void processMouseScroll(const float yOffset)
+    {
         _zoom -= yOffset;
-        if (_zoom < 1.0f) {
+        if (_zoom < 1.0f)
+        {
             _zoom = 1.0f;
         }
-        if (_zoom > 45.0f) {
+        if (_zoom > 45.0f)
+        {
             _zoom = 45.0f;
         }
     }
 
-    [[nodiscard]] float getZoom() const{
+    [[nodiscard]] float getZoom() const
+    {
         return _zoom;
     }
 
-    glm::vec3 getPosition() const {
+    [[nodiscard]] glm::vec3 getPosition() const
+    {
         return _position;
     }
 
-    glm::vec3 getFront() const {
+    [[nodiscard]] glm::vec3 getFront() const
+    {
         return _front;
     }
 
-    glm::vec3 getUp() const {
+    [[nodiscard]] glm::vec3 getUp() const
+    {
         return _up;
     }
 
-    glm::vec3 getRight() const {
+    [[nodiscard]] glm::vec3 getRight() const
+    {
         return _right;
     }
 
-    glm::vec3 getWorldUp() const {
+    [[nodiscard]] glm::vec3 getWorldUp() const
+    {
         return _worldUp;
     }
 
-    float getYaw() const {
+    [[nodiscard]] float getYaw() const
+    {
         return _yaw;
     }
 
-    float getPitch() const {
+    [[nodiscard]] float getPitch() const
+    {
         return _pitch;
     }
 
-    float getMovementSpeed() const {
+    [[nodiscard]] float getMovementSpeed() const
+    {
         return _movementSpeed;
     }
 
-    float getMouseSensitivity() const {
+    [[nodiscard]] float getMouseSensitivity() const
+    {
         return _mouseSensitivity;
     }
 
@@ -147,7 +171,8 @@ private:
     float _mouseSensitivity;
     float _zoom;
 
-    void updateCameraVectors() {
+    void updateCameraVectors()
+    {
         glm::vec3 front;
         front.x = glm::cos(glm::radians(_yaw)) * glm::cos(glm::radians(_pitch));
         front.y = glm::sin(glm::radians(_pitch));
@@ -157,7 +182,6 @@ private:
         _up = glm::normalize(glm::cross(_right, _front));
     }
 };
-
 
 
 #endif //CAMERA_H

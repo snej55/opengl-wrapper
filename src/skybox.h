@@ -9,14 +9,18 @@
 #include "objectShapes3D.h"
 #include "shader.h"
 
-class Skybox {
+class Skybox
+{
 public:
     Skybox() = default;
-    explicit Skybox(const std::string& dir) {
+
+    explicit Skybox(const std::string &dir)
+    {
         load(dir);
     }
 
-    void load(const std::string& dir) {
+    void load(const std::string &dir)
+    {
         // load skybox texture
         std::vector<std::string> files;
         files.push_back(dir + "/right.jpg");
@@ -38,12 +42,13 @@ public:
         glBufferData(GL_ARRAY_BUFFER, sizeof(Shapes3D::skyboxVertices), Shapes3D::skyboxVertices, GL_STATIC_DRAW);
 
         glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), reinterpret_cast<void*>(0));
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), reinterpret_cast<void *>(0));
 
         glBindVertexArray(0);
     }
 
-    void render(const Shader& shader, glm::mat4 view, const glm::mat4 &proj) const {
+    void render(const Shader &shader, glm::mat4 view, const glm::mat4 &proj) const
+    {
         // truncate translation so skybox never moves
         view = glm::mat4(glm::mat3(view));
 
@@ -59,15 +64,18 @@ public:
         glDepthFunc(GL_LESS);
     }
 
-    [[nodiscard]] GLuint getVAO() const {
+    [[nodiscard]] GLuint getVAO() const
+    {
         return VAO;
     }
 
-    [[nodiscard]] GLuint getVBO() const {
+    [[nodiscard]] GLuint getVBO() const
+    {
         return VBO;
     }
 
-    [[nodiscard]] GLuint getTex() const {
+    [[nodiscard]] GLuint getTex() const
+    {
         return _tex;
     }
 

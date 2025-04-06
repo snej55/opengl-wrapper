@@ -2,20 +2,6 @@
 // Created by Jens Kromdijk on 2/6/25.
 //
 
-/* TODO:
- * 1. OpenGL Context ✔
- * 2. Shaders ✔
- * 3. Drawing rects ✔
- * 4. Drawing textures ✔
- * 5. Better coordinate system & Camera ✔
- * ----------------- 3D ----------------- *
- * 6. Lighting/Objects ✔
- * 7. Model loading ✔
- * 8. Post processing
- * 9. Shadows
- * 10. Box collisions
- */
-
 #ifndef APP_H
 #define APP_H
 
@@ -30,28 +16,31 @@
 #include "./model.h"
 #include "./postprocessing.h"
 
-class App {
+class App
+{
 public:
-    App(int width, int height, const char* title);
+    App(int width, int height, const char *title);
 
     ~App();
 
     void clear() const;
+
     void tick();
 
     [[nodiscard]] bool shouldClose() const;
 
-    [[nodiscard]] GLFWwindow* getWindow() const;
+    [[nodiscard]] GLFWwindow *getWindow() const;
 
     [[nodiscard]] int getWidth() const;
 
     [[nodiscard]] int getHeight() const;
 
-    void setTitle(const char* title) const;
+    void setTitle(const char *title) const;
 
     [[nodiscard]] float getDeltaTime() const;
 
     void setCameraEnabled(bool val);
+
     [[nodiscard]] bool getCameraEnabled() const;
 
     void handleInput();
@@ -60,58 +49,85 @@ public:
 
     // ---------- Shapes ------------ //
     void drawRect(FRect rect, Color color) const;
+
     void drawRect(float x, float y, float w, float h, Color color) const;
+
     void drawRect(float x, float y, float w, float h, int r, int g, int b) const;
+
     void drawRect(FRect rect, int r, int g, int b) const;
 
     // ---------- Objects ----------- //
-    void drawCube(const Objects::Cube& cube, const Shader& shader, CubeVertexDatOption type = CUBE_VERTICES, float angle = 0.0f, glm::vec3 rotateAxis = {1.0f, 1.0f, 1.0f}) const;
+    void drawCube(const Objects::Cube &cube, const Shader &shader, CubeVertexDatOption type = CUBE_VERTICES,
+                  float angle = 0.0f, glm::vec3 rotateAxis = {1.0f, 1.0f, 1.0f}) const;
+
     // void drawCubeNormals(const Objects::Cube& cube, const Shader& shader, float angle = 0.0f, glm::vec3 rotateAxis = {1.0f, 1.0f, 1.0f}) const;
 
     // ---------- Textures ---------- //
-    Texture* loadTexture(const char* path) const;
-    void freeTexture(const Texture* texture) const;
-    void drawTexture(const Texture* texture, FRect destination) const;
+    Texture *loadTexture(const char *path) const;
+
+    void freeTexture(const Texture *texture) const;
+
+    void drawTexture(const Texture *texture, FRect destination) const;
 
     // ----------- Models ----------- //
-    Model* loadModel(const char* path) const;
-    void freeModel(const Model* model) const;
-    void drawModel(const Model* model, const Shader& shader, glm::vec3 pos, glm::vec3 scale) const;
+    Model *loadModel(const char *path) const;
+
+    void freeModel(const Model *model) const;
+
+    void drawModel(const Model *model, const Shader &shader, glm::vec3 pos, glm::vec3 scale) const;
 
     // window callbacks
-    void mouse_callback(GLFWwindow* window, double xPosIn, double yPosIn);
-    void scroll_callback(GLFWwindow* window, double xOffset, double yOffset);
-    void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+    void mouse_callback(GLFWwindow *window, double xPosIn, double yPosIn);
+
+    void scroll_callback(GLFWwindow *window, double xOffset, double yOffset);
+
+    void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 
     // view & perspective matrices getters
     [[nodiscard]] glm::mat4 getPerspectiveMatrix() const;
+
     [[nodiscard]] glm::mat4 getViewMatrix() const;
+
     [[nodiscard]] glm::vec3 getCameraPosition() const;
+
     [[nodiscard]] glm::mat4 getNormalMatrix(glm::mat4 modelMat) const;
 
     // flags
     void enableDepthTesting();
+
     void disableDepthTesting();
+
     void enableDebugHotKeys();
+
     void disableDebugHotKeys();
+
     void enableStencilTesting();
+
     void disableStencilTesting();
+
     void enableFaceCulling();
+
     void disableFaceCulling();
+
     void enablePostProcessing();
+
     void disablePostProcessing();
 
     [[nodiscard]] bool getDebugHotKeysEnabled() const;
+
     [[nodiscard]] bool getDepthTestingEnabled() const;
+
     [[nodiscard]] bool getStencilTestingEnabled() const;
+
     [[nodiscard]] bool getFaceCullingEnabled() const;
+
     [[nodiscard]] bool getPostProcessingEnabled() const;
 
     // post-processing
     [[nodiscard]] PostProcessor* getPostProcessor() const;
 
 private:
-    GLFWwindow* _window{nullptr};
+    GLFWwindow *_window{nullptr};
     int _width{0};
     int _height{0};
 
@@ -120,12 +136,12 @@ private:
 
     bool _closed{false};
 
-    Shader* _defaultShader{nullptr};
+    Shader *_defaultShader{nullptr};
     Shapes ShapeMan{};
     TexHandler TexHandlerMan{};
     ObjectHandler ObjHandlerMan{};
 
-    PostProcessor* _postProcessor{nullptr};
+    PostProcessor *_postProcessor{nullptr};
 
     // camera stuff
     Camera CameraMan{};
@@ -143,14 +159,14 @@ private:
 
     // ----------------------------------------------------------- //
 
-    bool init(int width, int height, const char* title);
+    bool init(int width, int height, const char *title);
 
-    static void win_framebuffer_size_callback(GLFWwindow* window, int width, int height);
+    static void win_framebuffer_size_callback(GLFWwindow *window, int width, int height);
 
-    static void win_mouse_callback(GLFWwindow* window, double xPosIn, double yPosIn);
-    static void win_scroll_callback(GLFWwindow* window, double xOffset, double yOffset);
+    static void win_mouse_callback(GLFWwindow *window, double xPosIn, double yPosIn);
+
+    static void win_scroll_callback(GLFWwindow *window, double xOffset, double yOffset);
 };
-
 
 
 #endif //APP_H

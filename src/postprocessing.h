@@ -14,11 +14,13 @@
 #include <iostream>
 
 
-class FramebufferObject {
+class FramebufferObject
+{
 public:
     FramebufferObject() = default;
 
-    int init(const int width, const int height) {
+    int init(const int width, const int height)
+    {
         glGenFramebuffers(1, &FBO);
         glBindFramebuffer(GL_FRAMEBUFFER, FBO);
         //
@@ -43,30 +45,36 @@ public:
         return check();
     }
 
-    void activate() const {
+    void activate() const
+    {
         glBindFramebuffer(GL_FRAMEBUFFER, FBO);
         glEnable(GL_DEPTH_TEST);
     }
 
-    void close() const {
+    void close() const
+    {
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
 
-    void clear() {
+    void clear()
+    {
         // make sure to activate before calling this function
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
-    void free() const {
+    void free() const
+    {
         glDeleteRenderbuffers(1, &RBO);
         glDeleteFramebuffers(1, &FBO);
     }
 
-    int check() const {
+    int check() const
+    {
         activate();
 
-        if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+        if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+        {
             std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
             return -1;
         }
@@ -77,7 +85,8 @@ public:
     }
 
 
-    unsigned int genTexture(int width = 0, int height = 0) {
+    unsigned int genTexture(int width = 0, int height = 0)
+    {
         // generate texture for fbo to use
         unsigned int tex;
 
@@ -98,24 +107,28 @@ public:
         return tex;
     }
 
-    void bind2Tex(const unsigned int tex) {
+    void bind2Tex(const unsigned int tex)
+    {
         // bind to texture
         _texture = tex;
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _texture, 0);
     }
 
-    void bind2NewTex() {
+    void bind2NewTex()
+    {
         // generate texture and bind to that
         const unsigned int tex{genTexture(_width, _height)};
         _texture = tex;
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, tex, 0);
     }
 
-    void bindTex() const {
+    void bindTex() const
+    {
         glBindTexture(GL_TEXTURE_2D, _texture);
     }
 
-    void enableDepthStencilTesting() {
+    void enableDepthStencilTesting()
+    {
         glGenRenderbuffers(1, &RBO);
         glBindRenderbuffer(GL_RENDERBUFFER, RBO);
         glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, _width, _height);
@@ -123,15 +136,18 @@ public:
         // glBindRenderbuffer(GL_RENDERBUFFER, 0);
     }
 
-    [[nodiscard]] unsigned int getFBO() const {
+    [[nodiscard]] unsigned int getFBO() const
+    {
         return FBO;
     }
 
-    [[nodiscard]] unsigned int getRBO() const {
+    [[nodiscard]] unsigned int getRBO() const
+    {
         return RBO;
     }
 
-    [[nodiscard]] unsigned int getTex() const {
+    [[nodiscard]] unsigned int getTex() const
+    {
         return _texture;
     }
 
@@ -143,22 +159,25 @@ private:
     int _width{0}, _height{0};
 };
 
-class PostProcessor {
+class PostProcessor
+{
 public:
     PostProcessor() = default;
 
-    int init(const int width, const int height) {
+    int init(const int width, const int height)
+    {
         glGenVertexArrays(1, &VAO);
         glGenBuffers(1, &VBO);
 
         glBindVertexArray(VAO);
 
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(Shapes3D::quadVerticesTexCoords), Shapes3D::quadVerticesTexCoords, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(Shapes3D::quadVerticesTexCoords), Shapes3D::quadVerticesTexCoords,
+                     GL_STATIC_DRAW);
 
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), reinterpret_cast<void*>(0));
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), reinterpret_cast<void *>(0));
         glEnableVertexAttribArray(0);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), reinterpret_cast<void*>(3 * sizeof(float)));
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), reinterpret_cast<void *>(3 * sizeof(float)));
         glEnableVertexAttribArray(1);
 
         glBindVertexArray(0);
@@ -166,16 +185,19 @@ public:
         return fbo.init(width, height);
     }
 
-    void start() const {
+    void start() const
+    {
         activate();
     }
 
-    void end() const {
+    void end() const
+    {
         close();
         glDisable(GL_DEPTH_TEST);
     }
 
-    void draw(const Shader& shader) const {
+    void draw(const Shader &shader) const
+    {
         // clear
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
@@ -190,19 +212,23 @@ public:
         glDrawArrays(GL_TRIANGLES, 0, 6);
     }
 
-    void activate() const {
+    void activate() const
+    {
         fbo.activate();
     }
 
-    void close() const {
+    void close() const
+    {
         fbo.close();
     }
 
-    void free() const {
+    void free() const
+    {
         fbo.free();
     }
 
-    [[nodiscard]] unsigned int getTex() const {
+    [[nodiscard]] unsigned int getTex() const
+    {
         return fbo.getTex();
     }
 
