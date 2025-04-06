@@ -53,3 +53,8 @@ add_custom_target(copy_assets
         COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_LIST_DIR}/data ${CMAKE_CURRENT_BINARY_DIR}/data
 )
 add_dependencies(${PROJECT_NAME} copy_assets)
+
+add_custom_target(copy_shaders
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_LIST_DIR}/src/shaders ${CMAKE_CURRENT_BINARY_DIR}/shaders
+)
+add_dependencies(${PROJECT_NAME} copy_shaders)

@@ -8,14 +8,14 @@ int main()
     app.enableDepthTesting();
     app.setCameraEnabled(true);
 
-    const Shader terrainShader {"data/shaders/heightMap.vert", "data/shaders/heightMap.frag"};
+    const Shader terrainShader {"shaders/builtin/heightMap.vert", "shaders/builtin/heightMap.frag"};
     Terrain terrain{};
     terrain.load("data/images/iceland_heightmap.png");
 
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     // get uniform block index for terrainShader
-    unsigned int ubiTerrain {glGetUniformBlockIndex(terrainShader.ID, "Matrices")};
+    const unsigned int ubiTerrain {glGetUniformBlockIndex(terrainShader.ID, "Matrices")};
     // set uniform block equal to binding point 0
     glUniformBlockBinding(terrainShader.ID, ubiTerrain, 0);
 
