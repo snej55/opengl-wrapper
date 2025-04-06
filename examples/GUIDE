@@ -1,3 +1,3 @@
-To run the examples, replace the contents of main.cpp of what is in the .cpp file of the example containing
+To run the examples, replace the contents of main.cpp with what is in the .cpp file of the example containing
 main(). If there are any shaders, copy them into src/shaders. Finally, build using cmake and you should be
 able to run it!
