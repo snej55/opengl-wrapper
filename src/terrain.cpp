@@ -115,8 +115,8 @@ void Terrain::loadBuffers()
 void Terrain::render(const Shader &shader, const glm::mat4 &projection, const glm::mat4 &view, const glm::mat4& model) const
 {
     shader.use();
-    shader.setMat4("projection", projection);
-    shader.setMat4("view", view);
+    // shader.setMat4("projection", projection);
+    // shader.setMat4("view", view);
     shader.setMat4("model", model);
 
     // render

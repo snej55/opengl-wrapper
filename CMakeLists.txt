@@ -41,6 +41,8 @@ set(SOURCES main.cpp
         src/postprocessing.h
         src/cubemap.h
         src/skybox.h
+        src/terrain.h
+        src/terrain.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
