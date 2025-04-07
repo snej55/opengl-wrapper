@@ -110,6 +110,10 @@ public:
 
     void disableFaceCulling();
 
+    void initPostProcessing();
+
+    void deletePostProcessor();
+
     void enablePostProcessing();
 
     void disablePostProcessing();
@@ -142,7 +146,7 @@ private:
     TexHandler TexHandlerMan{};
     ObjectHandler ObjHandlerMan{};
 
-    PostProcessor *_postProcessor{nullptr};
+    PostProcessor* _postProcessor{nullptr};
 
     // camera stuff
     Camera CameraMan{};

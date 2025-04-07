@@ -108,12 +108,6 @@ void App::close()
         // cleanup
         _defaultShader->close();
         delete _defaultShader;
-
-        if (_postProcessor != nullptr)
-        {
-            _postProcessor->close();
-            _postProcessor->free();
-        }
         delete _postProcessor;
 
         ShapeMan.close();
@@ -358,20 +352,37 @@ void App::disableFaceCulling()
     glDisable(GL_CULL_FACE);
 }
 
+void App::initPostProcessing()
+{
+    delete _postProcessor;
+    _postProcessor = new PostProcessor{};
+    _postProcessor->init(_width, _height);
+    _postProcessingEnabled = false;
+}
+
+void App::deletePostProcessor()
+{
+    delete _postProcessor;
+    _postProcessor = nullptr;
+    _postProcessingEnabled = false;
+}
+
 void App::enablePostProcessing()
 {
-    _postProcessor = new PostProcessor{};
-    if (const int success{_postProcessor->init(_width, _height)})
-        std::cout << "Failed to initialize post-processor! Error code " << success << std::endl;
-    _postProcessingEnabled = true;
+    if (_postProcessor != nullptr)
+    {
+        _postProcessor->enable();
+        _postProcessingEnabled = true;
+    }
 }
 
 void App::disablePostProcessing()
 {
-    _postProcessor->close();
-    _postProcessor->free();
-    delete _postProcessor;
-    _postProcessingEnabled = false;
+    if (_postProcessor != nullptr)
+    {
+        _postProcessor->disable();
+        _postProcessingEnabled = false;
+    }
 }
 
 bool App::getDebugHotKeysEnabled() const

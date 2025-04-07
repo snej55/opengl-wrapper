@@ -8,6 +8,7 @@ int main() {
     App app{640, 640, "OpenGL window"};
     app.enableDepthTesting();
     app.setCameraEnabled(true);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     const Shader lightShader{"shaders/builtin/lighting.vert", "shaders/builtin/lighting.frag"};
     lightShader.use();
@@ -69,6 +70,8 @@ int main() {
         modelMatrices[i] = model;
     }
 
+    app.initPostProcessing();
+
     // main loop
     while (!app.shouldClose()) {
         app.handleInput();
@@ -86,7 +89,6 @@ int main() {
         }
 
         app.drawCube(lightSourceCube, lightCubeShader);
-
         app.tick();
     }
 
