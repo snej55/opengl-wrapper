@@ -211,7 +211,7 @@ void App::drawCube(const Objects::Cube &cube, const Shader &shader, const CubeVe
 //     ObjHandlerMan.drawCubeNormals(shader, cube, getPerspectiveMatrix(), getViewMatrix(), angle, rotateAxis);
 // }
 
-Texture *App::loadTexture(const char *path) const
+Texture* App::loadTexture(const char *path) const
 {
     Texture *texture{new Texture};
     texture->loadFromFile(path);
@@ -259,6 +259,12 @@ void App::framebuffer_size_callback(GLFWwindow *window, const int width, const i
     _width = width;
     _height = height;
     glViewport(0, 0, width, height);
+
+    // update postprocessor
+    if (_postProcessor != nullptr)
+    {
+        _postProcessor->generate(width, height);
+    }
 }
 
 void App::win_mouse_callback(GLFWwindow *window, const double xPosIn, const double yPosIn)

@@ -112,6 +112,7 @@ public:
 
     void free() const
     {
+        glDeleteTextures(1, &TEX);
         glDeleteRenderbuffers(1, &RBO);
         glDeleteFramebuffers(1, &FBO);
     }
@@ -133,6 +134,13 @@ public:
         glBindVertexArray(0);
 
         glEnable(GL_DEPTH_TEST);
+    }
+
+    // for framebuffer_size_callback()
+    void generate(const int width, const int height)
+    {
+        free();
+        init(width, height);
     }
 
 
