@@ -8,7 +8,7 @@ int main() {
     App app{640, 640, "OpenGL window"};
     app.enableDepthTesting();
     app.setCameraEnabled(true);
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     const Shader lightShader{"shaders/builtin/lighting.vert", "shaders/builtin/lighting.frag"};
     lightShader.use();
@@ -70,11 +70,13 @@ int main() {
         modelMatrices[i] = model;
     }
 
+    const Shader screenShader{"shaders/builtin/screenShader.vert", "shaders/builtin/screenShader.frag"};
     app.initPostProcessing();
 
     // main loop
     while (!app.shouldClose()) {
         app.handleInput();
+        app.enablePostProcessing();
         app.clear();
 
         lightShader.use();
@@ -89,6 +91,10 @@ int main() {
         }
 
         app.drawCube(lightSourceCube, lightCubeShader);
+        app.disablePostProcessing();
+
+        app.getPostProcessor()->render(screenShader);
+
         app.tick();
     }
 
