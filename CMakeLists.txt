@@ -43,6 +43,7 @@ set(SOURCES main.cpp
         src/skybox.h
         src/terrain.h
         src/terrain.cpp
+        src/util.h
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})

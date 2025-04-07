@@ -75,6 +75,7 @@ public:
     void freeModel(const Model *model) const;
 
     void drawModel(const Model *model, const Shader &shader, glm::vec3 pos, glm::vec3 scale) const;
+    void drawModelM(const Model* model, const Shader& shader, glm::mat4 position) const;
 
     // window callbacks
     void mouse_callback(GLFWwindow *window, double xPosIn, double yPosIn);

@@ -426,3 +426,13 @@ void App::drawModel(const Model *model, const Shader &shader, glm::vec3 pos, glm
     shader.setMat4("normalMat", getNormalMatrix(position));
     model->draw(shader);
 }
+
+void App::drawModelM(const Model* model, const Shader& shader, glm::mat4 position) const
+{
+    shader.use();
+    shader.setMat4("model", position);
+    shader.setMat4("view", CameraMan.getViewMatrix());
+    shader.setMat4("projection", getPerspectiveMatrix());
+    shader.setMat4("normalMat", getNormalMatrix(position));
+    model->draw(shader);
+}
