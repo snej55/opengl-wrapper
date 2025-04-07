@@ -39,6 +39,9 @@ bool App::init(const int width, const int height, const char *title)
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
 
+    // for antialiasing
+    glfwWindowHint(GLFW_SAMPLES, 4);
+
     _window = glfwCreateWindow(width, height, title, nullptr, nullptr);
     if (_window == nullptr)
     {
@@ -57,6 +60,7 @@ bool App::init(const int width, const int height, const char *title)
     _width = width;
     _height = height;
     glViewport(0, 0, width, height);
+    glEnable(GL_MULTISAMPLE); // for antialiasing
 
     glfwSetWindowUserPointer(_window, this);
 
