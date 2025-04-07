@@ -17,32 +17,60 @@ public:
 
     void init(const int width, const int height)
     {
+        _width = width;
+        _height = height;
+
+        initGenerateFramebuffer();
+        initGenerateFramebufferTexture();
+        initGenerateRenderbuffer();
+
+        check();
+    }
+
+    void initGenerateFramebuffer()
+    {
         unsigned int framebuffer;
         glGenFramebuffers(1, &framebuffer);
         glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+        FBO = framebuffer;
+    }
+
+    void initGenerateFramebufferTexture() const
+    {
+        glBindFramebuffer(GL_FRAMEBUFFER, FBO);
 
         // generate texture
         unsigned int textureColorBuffer;
         glGenTextures(1, &textureColorBuffer);
         glBindTexture(GL_TEXTURE_2D, textureColorBuffer);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, _width, _height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
         // attach to framebuffer
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureColorBuffer, 0);
+    }
+
+    void initGenerateRenderbuffer()
+    {
+        glBindFramebuffer(GL_FRAMEBUFFER, FBO);
 
         // generate render buffer object
         unsigned int rbo;
         glGenRenderbuffers(1, &rbo);
         glBindRenderbuffer(GL_RENDERBUFFER, rbo);
-        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
+        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, _width, _height);
         glBindRenderbuffer(GL_RENDERBUFFER, 0);
 
         // attach render buffer object
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo);
+        RBO = rbo;
+    }
 
+    void check() const
+    {
         // check
+        glBindFramebuffer(GL_FRAMEBUFFER, FBO);
         if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
         {
             std::cout << "ERROR::FRAMEBUFFER Framebuffer is not complete!" << std::endl;
@@ -51,10 +79,6 @@ public:
             std::cout << "Successfully initialized postprocessor!" << std::endl;
         }
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-        // set FBO & RBO fields
-        FBO = framebuffer;
-        RBO = rbo;
     }
 
     void free() const
