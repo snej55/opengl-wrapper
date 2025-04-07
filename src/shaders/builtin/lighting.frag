@@ -35,8 +35,7 @@ uniform vec3 lightColor;
 
 void main() {
     float dist = length(light.position - FragPos);
-//    float attenuation = 1.0 / (light.constant + light.linear * dist + light.quadratic * (dist * dist));
-    float attenuation = 1.0;
+    float attenuation = 1.0 / (light.constant + light.linear * dist + light.quadratic * (dist * dist));
 
     vec3 ambient = light.ambient * vec3(texture(material.diffuse, TexCoords));
 

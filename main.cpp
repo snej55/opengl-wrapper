@@ -36,14 +36,14 @@ int main() {
     const Model* rockModel{app.loadModel("data/models/rock/rock.obj")};
 
     // generate random asteroid positions
-    unsigned int amount {1000};
+    unsigned int amount {3000};
     glm::mat4* modelMatrices {new glm::mat4[amount]};
 
     // set random seed
     std::srand(static_cast<unsigned int>(glfwGetTime()));
 
     float radius = 50.0f;
-    float offset = 2.5f;
+    float offset = 20.f;
     for (unsigned int i{0}; i < amount; ++i)
     {
         glm::mat4 model = glm::mat4(1.0f);
