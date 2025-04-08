@@ -60,7 +60,6 @@ bool App::init(const int width, const int height, const char *title)
     _width = width;
     _height = height;
     glViewport(0, 0, width, height);
-    glEnable(GL_MULTISAMPLE); // for antialiasing
 
     glfwSetWindowUserPointer(_window, this);
 
@@ -77,6 +76,8 @@ bool App::init(const int width, const int height, const char *title)
     // camera stuff
     _camLastX = static_cast<float>(_width) / 2.0f;
     _camLastY = static_cast<float>(_height) / 2.0f;
+
+    glEnable(GL_MULTISAMPLE); // for antialiasing
 
     return true;
 }
