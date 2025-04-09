@@ -14,7 +14,5 @@ cmake -S . -B bin -G Ninja
 cd bin
 
 # build
-ninja -j14
+ninja
 ```
-
-The option `-j14` is just to allow ninja to use multiple cpu cores (speeds it up). It is recommended to use the number of cores your cpu has minus 2.
