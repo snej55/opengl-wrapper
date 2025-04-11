@@ -17,7 +17,7 @@ elseif (CMAKE_SYSTEM MATCHES Linux)
     # link/include for linux x86
     # required packages:
     # mesa-libGL-devel mesa-libGLU-devel minizip
-    include_directories(${CMAKE_SOURCE_DIR}/include/linux)
+    include_directories(${CMAKE_SOURCE_DIR}/include/linux ${CMAKE_SOURCE_DIR}/src/glad)
     link_directories(${CMAKE_SOURCE_DIR}/lib/linux)
     set(GL_LIBS GL GLU glfw3 assimp)
 endif()

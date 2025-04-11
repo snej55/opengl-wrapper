@@ -10,98 +10,93 @@ int main() {
     app.setCameraEnabled(true);
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-    const Shader lightShader{"shaders/builtin/lighting.vert", "shaders/builtin/lighting.frag"};
-    lightShader.use();
-    lightShader.setVec3("objectColor", color2vec({182, 207, 142, 255}));
-    lightShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
+    float planeVertices[] = {
+        // positions          // texture Coords (note we set these higher than 1 (together with GL_REPEAT as texture wrapping mode). this will cause the floor texture to repeat)
+        5.0f, -0.5f,  5.0f,  2.0f, 0.0f,
+       -5.0f, -0.5f,  5.0f,  0.0f, 0.0f,
+       -5.0f, -0.5f, -5.0f,  0.0f, 2.0f,
 
-    constexpr glm::vec3 lightPos {1.2f, 1.0f, -20.0f};
+        5.0f, -0.5f,  5.0f,  2.0f, 0.0f,
+       -5.0f, -0.5f, -5.0f,  0.0f, 2.0f,
+        5.0f, -0.5f, -5.0f,  2.0f, 2.0f
+    };
 
-    lightShader.setVec3("light.position", lightPos);
+    unsigned int planeVAO, planeVBO;
+    glGenVertexArrays(1, &planeVAO);
+    glGenBuffers(1, &planeVBO);
 
-    lightShader.setVec3("light.ambient", 0.2f, 0.2f, 0.2f);
-    lightShader.setVec3("light.diffuse", 1.0f, 1.0f, 1.0f);
-    lightShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
+    glBindVertexArray(planeVAO);
 
-    lightShader.setFloat("light.constant",  1.0f);
-    lightShader.setFloat("light.linear",    0.01f);
-    lightShader.setFloat("light.quadratic", 0.032f);
+    glBindBuffer(GL_ARRAY_BUFFER, planeVBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(planeVertices), planeVertices, GL_STATIC_DRAW);
 
-    lightShader.setFloat("material.shininess", 32.0f); // pow(shininess)
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), reinterpret_cast<void*>(0));
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), reinterpret_cast<void*>(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
 
-    const Shader lightCubeShader{"shaders/builtin/lightCube.vert", "shaders/builtin/lightCube.frag"};
+    glBindVertexArray(0);
 
-    constexpr Objects::Cube lightSourceCube{lightPos, glm::vec3(0.2f, 0.2f, 0.2f)};
+    Texture* floorTex {app.loadTexture("data/images/floor.png")};
 
-    const Model* planetModel{app.loadModel("data/models/planet/planet.obj")};
-    const Model* rockModel{app.loadModel("data/models/rock/rock.obj")};
+    Texture* tomato {app.loadTexture("data/images/tomato.png")};
+    tomato->activate(0);
 
-    // generate random asteroid positions
-    unsigned int amount {3000};
-    glm::mat4* modelMatrices {new glm::mat4[amount]};
+    Objects::Cube cube1 {glm::vec3{-1.0f, 0.0f, -1.0f}, {1.0f, 1.0f, 1.0f}};
+    Objects::Cube cube2 {glm::vec3{2.0f, 1.0f, 0.0f}, glm::vec3{1.0f, 1.0f, 1.0f}};
+    Objects::Cube cube3 {glm::vec3{1.0f, 2.0f, 1.0f}, {0.9f, 0.9f, 0.9f}};
 
-    // set random seed
-    std::srand(static_cast<unsigned int>(glfwGetTime()));
+    Shader cubeShader{"shaders/builtin/texCube.vert", "shaders/builtin/texCube.frag"};
 
-    float radius = 50.0f;
-    float offset = 20.f;
-    for (unsigned int i{0}; i < amount; ++i)
-    {
-        glm::mat4 model = glm::mat4(1.0f);
-        // 1. translation: displace along circle with 'radius' in range [-offset, offset]
-        float angle = (float)i / (float)amount * 360.0f;
-        float displacement = (rand() % (int)(2 * offset * 100)) / 100.0f - offset;
-        float x = sin(angle) * radius + displacement;
-        displacement = (rand() % (int)(2 * offset * 100)) / 100.0f - offset;
-        float y = displacement * 0.4f; // keep height of field smaller compared to width of x and z
-        displacement = (rand() % (int)(2 * offset * 100)) / 100.0f - offset;
-        float z = cos(angle) * radius + displacement;
-        model = glm::translate(model, glm::vec3(x, y, z));
+    // configure framebuffers
+    unsigned int depthFBO;
+    glGenFramebuffers(1, &depthFBO);
 
-        // 2. scale: scale between 0.05 and 0.25f
-        float scale = (rand() % 20) / 100.0f + 0.05;
-        model = glm::scale(model, glm::vec3(scale));
+    const unsigned int SHADOW_WIDTH {1024}, SHADOW_HEIGHT {1024};
+    unsigned int depthMap;
+    glGenTextures(1, &depthMap);
+    glBindTexture(GL_TEXTURE_2D, depthMap);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-        // 3. rotation: add random rotation around a (semi)randomly picked rotation axis vector
-        float rotAngle = (rand() % 360);
-        model = glm::rotate(model, rotAngle, glm::vec3(0.4f, 0.6f, 0.8f));
-
-        // 4. now add to list of matrices
-        modelMatrices[i] = model;
-    }
-
-    const Shader screenShader{"shaders/builtin/screenShader.vert", "shaders/builtin/screenShader.frag"};
-    app.initPostProcessing();
+    glBindFramebuffer(GL_FRAMEBUFFER, depthFBO);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
+    glDrawBuffer(GL_NONE);
+    glReadBuffer(GL_NONE);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
     // main loop
     while (!app.shouldClose()) {
         app.handleInput();
-        app.enablePostProcessing();
         app.clear();
 
-        lightShader.use();
+        floorTex->activate(0);
+        cubeShader.use();
+        cubeShader.setInt("tex", 0);
 
-        lightShader.setVec3("viewPos", app.getCameraPosition());
+        cubeShader.setMat4("projection", app.getPerspectiveMatrix());
+        cubeShader.setMat4("view", app.getViewMatrix());
+        cubeShader.setMat4("model", glm::mat4(1.0f));
+        glBindVertexArray(planeVAO);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+        glBindVertexArray(0);
 
-        app.drawModel(planetModel, lightShader, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(4.0f, 4.0f, 4.0f));
+        tomato->activate(0);
+        cubeShader.use();
+        cubeShader.setInt("tex", 0);
 
-        for (unsigned int i{0}; i < amount; ++i)
-        {
-            app.drawModelM(rockModel, lightShader, modelMatrices[i]);
-        }
-
-        app.drawCube(lightSourceCube, lightCubeShader);
-        app.disablePostProcessing();
-
-        app.getPostProcessor()->render(screenShader);
+        app.drawCube(cube1, cubeShader, CUBE_TEXCOORDS);
+        app.drawCube(cube2, cubeShader, CUBE_TEXCOORDS);
+        app.drawCube(cube3, cubeShader, CUBE_TEXCOORDS);
 
         app.tick();
     }
 
     // clean up
-    delete[] modelMatrices;
-    app.freeModel(planetModel);
-    app.freeModel(rockModel);
+    app.freeTexture(tomato);
     app.close();
 
     return 0;
