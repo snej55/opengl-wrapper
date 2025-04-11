@@ -1,6 +1,8 @@
 ## What is this?
 This is a simple opengl wrapper, with support for rendering 2D shapes & textures, as well as 3D objects and model loading, with basic lighting.
 
+![screenshot](https://github.com/snej55/opengl-wrapper/blob/master/screenshot.png)
+
 ## Build instructions
 To build it, use CMake and ninja-build (or a different generator):
 
