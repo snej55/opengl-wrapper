@@ -37,5 +37,6 @@ void main() {
         col += sampleTex[i] * kernel[i];
     }
 
-    FragColor = vec4(col, 1.0);
+    vec3 fragColor = texture(screenTexture, TexCoords).rgb;
+    FragColor = vec4(pow(fragColor, vec3(1.0/2.2)), 1.0);
 }

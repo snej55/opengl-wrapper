@@ -24,8 +24,8 @@ int main() {
     lightShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
 
     lightShader.setFloat("light.constant",  1.0f);
-    lightShader.setFloat("light.linear",    0.001f);
-    lightShader.setFloat("light.quadratic", 0.0032f);
+    lightShader.setFloat("light.linear",    0.01f);
+    lightShader.setFloat("light.quadratic", 0.032f);
 
     lightShader.setFloat("material.shininess", 32.0f); // pow(shininess)
 
