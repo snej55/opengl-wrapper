@@ -1,5 +1,5 @@
 //
-// Created by jens kromdijk on 2/14/25.
+// Created by Jens Kromdijk on 2/14/25.
 //
 
 #ifndef SHAPES3D_H
