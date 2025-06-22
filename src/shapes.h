@@ -49,14 +49,14 @@ inline glm::vec3 color2vec(const Color color)
     };
 }
 
-inline float RectVertices[] = {
+inline float RectVertices[] {
     1.0f, 0.0f, 0.0f, // top right
     1.0f, -1.0f, 0.0f, // bottom right
     0.0f, -1.0f, 0.0f, // bottom left
     0.0f, 0.0f, 0.0f // top left
 };
 
-inline unsigned int RectIndices[]{
+inline unsigned int RectIndices[] {
     0, 1, 3, // first Triangle
     1, 2, 3 // second Triangle
 };
@@ -131,7 +131,7 @@ public:
     }
 
 private:
-    const char *vertShaderSource = "#version 330 core\n"
+    const char* vertShaderSource = "#version 330 core\n"
             "layout (location = 0) in vec3 aPos;\n"
             "uniform mat4 model;"
             "void main()\n"
@@ -139,7 +139,7 @@ private:
             "   gl_Position = model * vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
             "}\0";
 
-    const char *fragShaderSource = "#version 330 core\n"
+    const char* fragShaderSource = "#version 330 core\n"
             "out vec4 FragColor;\n"
             "uniform vec3 shapeColor;"
             "void main()\n"
@@ -149,7 +149,7 @@ private:
 
     unsigned int rectVBO{}, rectVAO{}, rectEBO{};
 
-    Shader *colorShader{nullptr};
+    Shader* colorShader{nullptr};
 };
 
 #endif //SHAPES_H
